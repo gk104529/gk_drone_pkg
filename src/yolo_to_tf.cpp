@@ -60,7 +60,7 @@ private:
   void yolo_to_tf(const sensor_msgs::ImageConstPtr& msg ,
                   const vision_msgs::Detection2DArrayConstPtr& yolo_msg);
 
-  void file_writter(const geometry_msgs::Point& p_R);
+  void file_writter(const tf2::Vector3& target);
 
   ros::NodeHandle nh_;
   ros::NodeHandle pnh;
@@ -126,6 +126,9 @@ private:
   
   int file_numbering;
   int yolo_detection_number;
+
+  tf2::Transform nav_to_dronexy;
+  cv::Mat original_image;
 
 };
 
@@ -194,7 +197,18 @@ image_to_tf::~image_to_tf()
 void image_to_tf::yolo_to_tf(const sensor_msgs::ImageConstPtr& msg ,
                              const vision_msgs::Detection2DArrayConstPtr& yolo_msg)
   {
+    cv_bridge::CvImagePtr cv_ptr;
     
+    try
+    {
+      cv_ptr = cv_bridge::toCvCopy(msg, sensor_msgs::image_encodings::BGR8);
+      original_image = cv_ptr->image;
+    }
+    catch (cv_bridge::Exception& e)
+    {
+      ROS_ERROR("cv_bridge exception: %s", e.what());
+      return;
+    }
    
     try
     {
@@ -326,6 +340,8 @@ void image_to_tf::yolo_to_tf(const sensor_msgs::ImageConstPtr& msg ,
       transformStamped2.transform.rotation.w = 1;
       dynamic_br_drone.sendTransform(transformStamped2);
 
+      transformMsgToTF2(transformStamped2.transform, nav_to_dronexy);
+
       
       
       geometry_msgs::TransformStamped transformStamped;
@@ -434,12 +450,10 @@ void image_to_tf::get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::
           dynamic_high_.sendTransform(transformStamped);
           marker_pub_h.publish(line_strip_high);
 
-          geometry_msgs::Point p_R;
-          p_R.x = line_x- p_P.x;;
-          p_R.y = line_y- p_P.y;
-          p_R.z = dz-dz /sqrtf(dx*dx+dy*dy) * d_L;
+          tf2::Vector3 drone_to_target(line_x- p_P.x,line_y- p_P.y,dz-dz /sqrtf(dx*dx+dy*dy) * d_L);
+          tf2::Vector3 origin_to_target = nav_to_dronexy.inverse() * drone_to_target;
 
-          file_writter(p_R);
+          file_writter(origin_to_target);
 
           break;
         }
@@ -512,12 +526,10 @@ void image_to_tf::get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::
           dynamic_high_.sendTransform(transformStamped);
           marker_pub_h.publish(line_strip_high);
 
-          geometry_msgs::Point p_R;
-          p_R.x = line_x- p_P.x;;
-          p_R.y = line_y- p_P.y;
-          p_R.z = dz-dz /sqrtf(dx*dx+dy*dy) * d_L;
+          tf2::Vector3 drone_to_target(line_x- p_P.x,line_y- p_P.y,dz-dz /sqrtf(dx*dx+dy*dy) * d_L);
+          tf2::Vector3 origin_to_target = nav_to_dronexy.inverse() * drone_to_target;
 
-          file_writter(p_R);
+          file_writter(origin_to_target);
 
           break;
         }
@@ -623,24 +635,37 @@ void image_to_tf::set_line(const cv::Point& point,
 
     marker_pub.publish(line_strip);
   }
-
-void image_to_tf::file_writter(const geometry_msgs::Point& p_R){
+void image_to_tf::file_writter(const tf2::Vector3& target){
   std::ofstream writing_file;
   std::ostringstream oss;
   oss << file_numbering;
 
-  std::string file = write_file_path + "/" + oss.str() + ".csv";
+  std::string file = write_file_path + "/" + oss.str() ;
+  std::string file_csv = file + ".csv";
+  std::string file_png = file + ".png";
 
-  writing_file.open(file.c_str());
-  writing_file << p_R.x << ", "<< p_R.y << ", "  <<  std::endl; 
+  float target_lon,target_lat;
+
+  tf_to_LonLat_simple(target,target_lon,target_lat);
+
+
+  writing_file.open(file_csv.c_str());
+  writing_file << "target_x:"<< target.getX() << ",target_y"<< target.getY() << ",targetz:" << target.getZ()
+               << ",target_lon:" << target_lon  <<",target_lat:" << target_lat <<  std::endl; 
   writing_file.close();
+  cv::imwrite(file_png,original_image);
+  
+
   file_numbering++;
+
+
 
   std_msgs::String msg;
   msg.data=file;
   save_file_pub.publish(msg);
 
 }
+
 
 int main(int argc, char** argv)
 {
