@@ -1,0 +1,6165 @@
+<sdf version='1.7'>
+  <model name='mecanumrover_tgp_shi'>
+    <link name='base_link'>
+      <inertial>
+        <pose>-0.007051 0 0.006026 0 -0 0</pose>
+        <mass>14.602</mass>
+        <inertia>
+          <ixx>0.240352</ixx>
+          <ixy>7.73814e-19</ixy>
+          <ixz>0.0150465</ixz>
+          <iyy>0.191836</iyy>
+          <iyz>-2.7415e-19</iyz>
+          <izz>0.136522</izz>
+        </inertia>
+      </inertial>
+      <collision name='base_link_fixed_joint_lump__body_link_collision'>
+        <pose>-0.02 0 0.1 0 -0 0</pose>
+        <geometry>
+          <box>
+            <size>0.42 0.26 0.13</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__board_back_link_collision_1'>
+        <pose>-0.187 0 0.1585 0 -0 3.14159</pose>
+        <geometry>
+          <box>
+            <size>0.09 0.12 0.003</size>
+          </box>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='base_link_fixed_joint_lump__button_link_collision_2'>
+        <pose>-0.189 0 0.1513 0 -0 3.14159</pose>
+        <geometry>
+          <cylinder>
+            <length>0.08</length>
+            <radius>0.0155</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='base_link_fixed_joint_lump__body_link_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_body.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/White</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__board_back_link_visual_1'>
+        <pose>-0.157 0 0.1585 0 -0 3.14159</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_optionattachboard.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/White</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='base_link_fixed_joint_lump__button_link_visual_2'>
+        <pose>-0.189 0 0.1513 0 -0 3.14159</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_button.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Red</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <velocity_decay/>
+      <velocity_decay/>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+    <joint name='wheel0_sus_joint' type='prismatic'>
+      <pose relative_to='base_link'>0.115 0.132 0.075 0 -0 1.5708</pose>
+      <parent>base_link</parent>
+      <child>wheel0_sus_link</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-0.02</lower>
+          <upper>0.02</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
+        </limit>
+        <dynamics>
+          <damping>0.01</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
+    <link name='wheel0_sus_link'>
+      <pose relative_to='wheel0_sus_joint'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>0.89</mass>
+        <inertia>
+          <ixx>0.00120148</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00120148</iyy>
+          <iyz>0</iyz>
+          <izz>0.000227828</izz>
+        </inertia>
+      </inertial>
+      <collision name='wheel0_sus_link_fixed_joint_lump__wheel0_motor_body_link_collision'>
+        <pose>-0.06075 0 0 0 1.5708 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1215</length>
+            <radius>0.02225</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='wheel0_sus_link_fixed_joint_lump__wheel0_motor_body_link_visual'>
+        <pose>-0.06075 0 0 0 1.5708 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1215</length>
+            <radius>0.02225</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gray</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+    <joint name='wheel0_motor_shaft_joint' type='revolute'>
+      <pose relative_to='wheel0_sus_link'>0 0 0 0 1.5708 0</pose>
+      <parent>wheel0_sus_link</parent>
+      <child>wheel0_motor_shaft_link</child>
+      <axis>
+        <xyz>0 0 -1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.01</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='wheel0_motor_shaft_link'>
+      <pose relative_to='wheel0_motor_shaft_joint'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 -0 0 0 -0 0</pose>
+        <mass>0.619</mass>
+        <inertia>
+          <ixx>0.000756434</ixx>
+          <ixy>-3.38813e-20</ixy>
+          <ixz>-5.29396e-23</ixz>
+          <iyy>0.000756434</iyy>
+          <iyz>8.47033e-22</iyz>
+          <izz>0.00133481</izz>
+        </inertia>
+      </inertial>
+      <collision name='wheel0_motor_shaft_link_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.04572</length>
+            <radius>0.07</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0</mu>
+              <mu2>0</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel0_link_collision_1'>
+        <pose>0.066639 -0.009192 -0.009192 -0.785398 0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel0_link_collision_2'>
+        <pose>0.066639 0 0 -0.785398 0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel0_link_collision_3'>
+        <pose>0.066639 0.009192 0.009192 -0.785398 0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel10_link_collision_4'>
+        <pose>-0.04128 -0.053115 -0.009192 -0.785398 -0 -2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel10_link_collision_5'>
+        <pose>-0.033319 -0.057711 0 -0.785398 -0 -2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel10_link_collision_6'>
+        <pose>-0.025359 -0.062307 0.009192 -0.785398 -0 -2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel11_link_collision_7'>
+        <pose>-0.016108 -0.065313 -0.009192 -0.785398 -0 -1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel11_link_collision_8'>
+        <pose>-0.006966 -0.066274 0 -0.785398 -0 -1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel11_link_collision_9'>
+        <pose>0.002176 -0.067235 0.009192 -0.785398 -0 -1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel12_link_collision_10'>
+        <pose>0.01185 -0.066218 -0.009192 -0.785398 -0 -1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel12_link_collision_11'>
+        <pose>0.020593 -0.063377 0 -0.785398 -0 -1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel12_link_collision_12'>
+        <pose>0.029335 -0.060537 0.009192 -0.785398 -0 -1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel13_link_collision_13'>
+        <pose>0.037759 -0.055673 -0.009192 -0.785398 -0 -0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel13_link_collision_14'>
+        <pose>0.04459 -0.049522 0 -0.785398 -0 -0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel13_link_collision_15'>
+        <pose>0.051421 -0.043371 0.009192 -0.785398 -0 -0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel14_link_collision_16'>
+        <pose>0.057139 -0.035502 -0.009192 -0.785398 -0 -0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel14_link_collision_17'>
+        <pose>0.060878 -0.027104 0 -0.785398 -0 -0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel14_link_collision_18'>
+        <pose>0.064617 -0.018707 0.009192 -0.785398 -0 -0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel1_link_collision_19'>
+        <pose>0.064617 0.018707 -0.009192 -0.785398 0 0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel1_link_collision_20'>
+        <pose>0.060878 0.027104 0 -0.785398 0 0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel1_link_collision_21'>
+        <pose>0.057139 0.035502 0.009192 -0.785398 0 0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel2_link_collision_22'>
+        <pose>0.051421 0.043371 -0.009192 -0.785398 -0 0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel2_link_collision_23'>
+        <pose>0.04459 0.049522 0 -0.785398 -0 0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel2_link_collision_24'>
+        <pose>0.037759 0.055673 0.009192 -0.785398 -0 0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel3_link_collision_25'>
+        <pose>0.029335 0.060537 -0.009192 -0.785398 0 1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel3_link_collision_26'>
+        <pose>0.020593 0.063377 0 -0.785398 0 1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel3_link_collision_27'>
+        <pose>0.01185 0.066218 0.009192 -0.785398 0 1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel4_link_collision_28'>
+        <pose>0.002176 0.067235 -0.009192 -0.785398 -0 1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel4_link_collision_29'>
+        <pose>-0.006966 0.066274 0 -0.785398 -0 1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel4_link_collision_30'>
+        <pose>-0.016108 0.065313 0.009192 -0.785398 -0 1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel5_link_collision_31'>
+        <pose>-0.025359 0.062307 -0.009192 -0.785398 -0 2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel5_link_collision_32'>
+        <pose>-0.033319 0.057711 0 -0.785398 -0 2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel5_link_collision_33'>
+        <pose>-0.04128 0.053115 0.009192 -0.785398 -0 2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel6_link_collision_34'>
+        <pose>-0.048509 0.046606 -0.009192 -0.785398 0 2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel6_link_collision_35'>
+        <pose>-0.053912 0.039169 0 -0.785398 0 2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel6_link_collision_36'>
+        <pose>-0.059315 0.031733 0.009192 -0.785398 0 2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel7_link_collision_37'>
+        <pose>-0.063271 0.022847 -0.009192 -0.785398 0 2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel7_link_collision_38'>
+        <pose>-0.065183 0.013855 0 -0.785398 0 2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel7_link_collision_39'>
+        <pose>-0.067094 0.004863 0.009192 -0.785398 0 2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel8_link_collision_40'>
+        <pose>-0.067094 -0.004863 -0.009192 -0.785398 -0 -2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel8_link_collision_41'>
+        <pose>-0.065183 -0.013855 0 -0.785398 -0 -2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel8_link_collision_42'>
+        <pose>-0.063271 -0.022847 0.009192 -0.785398 -0 -2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel9_link_collision_43'>
+        <pose>-0.059315 -0.031733 -0.009192 -0.785398 -0 -2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel9_link_collision_44'>
+        <pose>-0.053912 -0.039169 0 -0.785398 -0 -2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel9_link_collision_45'>
+        <pose>-0.048509 -0.046606 0.009192 -0.785398 -0 -2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='wheel0_motor_shaft_link_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_wheel_rev.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/White</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel0_link_visual_1'>
+        <pose>0.066639 0 0 -0.785398 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel10_link_visual_2'>
+        <pose>-0.033319 -0.057711 0 -0.785398 -0 -2.0944</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel11_link_visual_3'>
+        <pose>-0.006966 -0.066274 0 -0.785398 -0 -1.67552</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel12_link_visual_4'>
+        <pose>0.020593 -0.063377 0 -0.785398 -0 -1.25664</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel13_link_visual_5'>
+        <pose>0.04459 -0.049522 0 -0.785398 -0 -0.837758</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel14_link_visual_6'>
+        <pose>0.060878 -0.027104 0 -0.785398 -0 -0.418879</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel1_link_visual_7'>
+        <pose>0.060878 0.027104 0 -0.785398 0 0.418879</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel2_link_visual_8'>
+        <pose>0.04459 0.049522 0 -0.785398 -0 0.837758</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel3_link_visual_9'>
+        <pose>0.020593 0.063377 0 -0.785398 0 1.25664</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel4_link_visual_10'>
+        <pose>-0.006966 0.066274 0 -0.785398 -0 1.67552</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel5_link_visual_11'>
+        <pose>-0.033319 0.057711 0 -0.785398 -0 2.0944</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel6_link_visual_12'>
+        <pose>-0.053912 0.039169 0 -0.785398 0 2.51327</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel7_link_visual_13'>
+        <pose>-0.065183 0.013855 0 -0.785398 0 2.93215</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel8_link_visual_14'>
+        <pose>-0.065183 -0.013855 0 -0.785398 -0 -2.93215</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel0_motor_shaft_link_fixed_joint_lump__wheel0_barrel9_link_visual_15'>
+        <pose>-0.053912 -0.039169 0 -0.785398 -0 -2.51327</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+    <joint name='wheel1_sus_joint' type='prismatic'>
+      <pose relative_to='base_link'>0.115 -0.132 0.075 0 0 -1.5708</pose>
+      <parent>base_link</parent>
+      <child>wheel1_sus_link</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-0.02</lower>
+          <upper>0.02</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
+        </limit>
+        <dynamics>
+          <damping>0.01</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
+    <link name='wheel1_sus_link'>
+      <pose relative_to='wheel1_sus_joint'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>0.89</mass>
+        <inertia>
+          <ixx>0.00120148</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00120148</iyy>
+          <iyz>0</iyz>
+          <izz>0.000227828</izz>
+        </inertia>
+      </inertial>
+      <collision name='wheel1_sus_link_fixed_joint_lump__wheel1_motor_body_link_collision'>
+        <pose>-0.06075 0 0 0 1.5708 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1215</length>
+            <radius>0.02225</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='wheel1_sus_link_fixed_joint_lump__wheel1_motor_body_link_visual'>
+        <pose>-0.06075 0 0 0 1.5708 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1215</length>
+            <radius>0.02225</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gray</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+    <joint name='wheel1_motor_shaft_joint' type='revolute'>
+      <pose relative_to='wheel1_sus_link'>0 0 0 0 1.5708 0</pose>
+      <parent>wheel1_sus_link</parent>
+      <child>wheel1_motor_shaft_link</child>
+      <axis>
+        <xyz>0 0 -1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.01</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='wheel1_motor_shaft_link'>
+      <pose relative_to='wheel1_motor_shaft_joint'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 -0 0 0 -0 0</pose>
+        <mass>0.619</mass>
+        <inertia>
+          <ixx>0.000756434</ixx>
+          <ixy>-3.38813e-20</ixy>
+          <ixz>5.29396e-23</ixz>
+          <iyy>0.000756434</iyy>
+          <iyz>-8.47033e-22</iyz>
+          <izz>0.00133481</izz>
+        </inertia>
+      </inertial>
+      <collision name='wheel1_motor_shaft_link_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.04572</length>
+            <radius>0.07</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0</mu>
+              <mu2>0</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel0_link_collision_1'>
+        <pose>0.066639 0.009192 -0.009192 0.785398 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel0_link_collision_2'>
+        <pose>0.066639 0 0 0.785398 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel0_link_collision_3'>
+        <pose>0.066639 -0.009192 0.009192 0.785398 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel10_link_collision_4'>
+        <pose>-0.025359 -0.062307 -0.009192 0.785398 0 -2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel10_link_collision_5'>
+        <pose>-0.033319 -0.057711 0 0.785398 0 -2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel10_link_collision_6'>
+        <pose>-0.04128 -0.053115 0.009192 0.785398 0 -2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel11_link_collision_7'>
+        <pose>0.002176 -0.067235 -0.009192 0.785398 -0 -1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel11_link_collision_8'>
+        <pose>-0.006966 -0.066274 0 0.785398 -0 -1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel11_link_collision_9'>
+        <pose>-0.016108 -0.065313 0.009192 0.785398 -0 -1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel12_link_collision_10'>
+        <pose>0.029335 -0.060537 -0.009192 0.785398 -0 -1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel12_link_collision_11'>
+        <pose>0.020593 -0.063377 0 0.785398 -0 -1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel12_link_collision_12'>
+        <pose>0.01185 -0.066218 0.009192 0.785398 -0 -1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel13_link_collision_13'>
+        <pose>0.051421 -0.043371 -0.009192 0.785398 -0 -0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel13_link_collision_14'>
+        <pose>0.04459 -0.049522 0 0.785398 -0 -0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel13_link_collision_15'>
+        <pose>0.037759 -0.055673 0.009192 0.785398 -0 -0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel14_link_collision_16'>
+        <pose>0.064617 -0.018707 -0.009192 0.785398 0 -0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel14_link_collision_17'>
+        <pose>0.060878 -0.027104 0 0.785398 0 -0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel14_link_collision_18'>
+        <pose>0.057139 -0.035502 0.009192 0.785398 0 -0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel1_link_collision_19'>
+        <pose>0.057139 0.035502 -0.009192 0.785398 -0 0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel1_link_collision_20'>
+        <pose>0.060878 0.027104 0 0.785398 -0 0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel1_link_collision_21'>
+        <pose>0.064617 0.018707 0.009192 0.785398 -0 0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel2_link_collision_22'>
+        <pose>0.037759 0.055673 -0.009192 0.785398 0 0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel2_link_collision_23'>
+        <pose>0.04459 0.049522 0 0.785398 0 0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel2_link_collision_24'>
+        <pose>0.051421 0.043371 0.009192 0.785398 0 0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel3_link_collision_25'>
+        <pose>0.01185 0.066218 -0.009192 0.785398 -0 1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel3_link_collision_26'>
+        <pose>0.020593 0.063377 0 0.785398 -0 1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel3_link_collision_27'>
+        <pose>0.029335 0.060537 0.009192 0.785398 -0 1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel4_link_collision_28'>
+        <pose>-0.016108 0.065313 -0.009192 0.785398 -0 1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel4_link_collision_29'>
+        <pose>-0.006966 0.066274 0 0.785398 -0 1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel4_link_collision_30'>
+        <pose>0.002176 0.067235 0.009192 0.785398 -0 1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel5_link_collision_31'>
+        <pose>-0.04128 0.053115 -0.009192 0.785398 0 2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel5_link_collision_32'>
+        <pose>-0.033319 0.057711 0 0.785398 0 2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel5_link_collision_33'>
+        <pose>-0.025359 0.062307 0.009192 0.785398 0 2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel6_link_collision_34'>
+        <pose>-0.059315 0.031733 -0.009192 0.785398 -0 2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel6_link_collision_35'>
+        <pose>-0.053912 0.039169 0 0.785398 -0 2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel6_link_collision_36'>
+        <pose>-0.048509 0.046606 0.009192 0.785398 -0 2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel7_link_collision_37'>
+        <pose>-0.067094 0.004863 -0.009192 0.785398 -0 2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel7_link_collision_38'>
+        <pose>-0.065183 0.013855 0 0.785398 -0 2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel7_link_collision_39'>
+        <pose>-0.063271 0.022847 0.009192 0.785398 -0 2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel8_link_collision_40'>
+        <pose>-0.063271 -0.022847 -0.009192 0.785398 0 -2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel8_link_collision_41'>
+        <pose>-0.065183 -0.013855 0 0.785398 0 -2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel8_link_collision_42'>
+        <pose>-0.067094 -0.004863 0.009192 0.785398 0 -2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel9_link_collision_43'>
+        <pose>-0.048509 -0.046606 -0.009192 0.785398 0 -2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel9_link_collision_44'>
+        <pose>-0.053912 -0.039169 0 0.785398 0 -2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel9_link_collision_45'>
+        <pose>-0.059315 -0.031733 0.009192 0.785398 0 -2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='wheel1_motor_shaft_link_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_wheel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/White</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel0_link_visual_1'>
+        <pose>0.066639 0 0 0.785398 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel10_link_visual_2'>
+        <pose>-0.033319 -0.057711 0 0.785398 0 -2.0944</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel11_link_visual_3'>
+        <pose>-0.006966 -0.066274 0 0.785398 -0 -1.67552</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel12_link_visual_4'>
+        <pose>0.020593 -0.063377 0 0.785398 -0 -1.25664</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel13_link_visual_5'>
+        <pose>0.04459 -0.049522 0 0.785398 -0 -0.837758</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel14_link_visual_6'>
+        <pose>0.060878 -0.027104 0 0.785398 0 -0.418879</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel1_link_visual_7'>
+        <pose>0.060878 0.027104 0 0.785398 -0 0.418879</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel2_link_visual_8'>
+        <pose>0.04459 0.049522 0 0.785398 0 0.837758</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel3_link_visual_9'>
+        <pose>0.020593 0.063377 0 0.785398 -0 1.25664</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel4_link_visual_10'>
+        <pose>-0.006966 0.066274 0 0.785398 -0 1.67552</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel5_link_visual_11'>
+        <pose>-0.033319 0.057711 0 0.785398 0 2.0944</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel6_link_visual_12'>
+        <pose>-0.053912 0.039169 0 0.785398 -0 2.51327</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel7_link_visual_13'>
+        <pose>-0.065183 0.013855 0 0.785398 -0 2.93215</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel8_link_visual_14'>
+        <pose>-0.065183 -0.013855 0 0.785398 0 -2.93215</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel1_motor_shaft_link_fixed_joint_lump__wheel1_barrel9_link_visual_15'>
+        <pose>-0.053912 -0.039169 0 0.785398 0 -2.51327</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+    <joint name='wheel2_sus_joint' type='prismatic'>
+      <pose relative_to='base_link'>-0.115 0.132 0.075 0 -0 1.5708</pose>
+      <parent>base_link</parent>
+      <child>wheel2_sus_link</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-0.02</lower>
+          <upper>0.02</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
+        </limit>
+        <dynamics>
+          <damping>0.01</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
+    <link name='wheel2_sus_link'>
+      <pose relative_to='wheel2_sus_joint'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>0.89</mass>
+        <inertia>
+          <ixx>0.00120148</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00120148</iyy>
+          <iyz>0</iyz>
+          <izz>0.000227828</izz>
+        </inertia>
+      </inertial>
+      <collision name='wheel2_sus_link_fixed_joint_lump__wheel2_motor_body_link_collision'>
+        <pose>-0.06075 0 0 0 1.5708 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1215</length>
+            <radius>0.02225</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='wheel2_sus_link_fixed_joint_lump__wheel2_motor_body_link_visual'>
+        <pose>-0.06075 0 0 0 1.5708 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1215</length>
+            <radius>0.02225</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gray</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+    <joint name='wheel2_motor_shaft_joint' type='revolute'>
+      <pose relative_to='wheel2_sus_link'>0 0 0 0 1.5708 0</pose>
+      <parent>wheel2_sus_link</parent>
+      <child>wheel2_motor_shaft_link</child>
+      <axis>
+        <xyz>0 0 -1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.01</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='wheel2_motor_shaft_link'>
+      <pose relative_to='wheel2_motor_shaft_joint'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 -0 0 0 -0 0</pose>
+        <mass>0.619</mass>
+        <inertia>
+          <ixx>0.000756434</ixx>
+          <ixy>-3.38813e-20</ixy>
+          <ixz>5.29396e-23</ixz>
+          <iyy>0.000756434</iyy>
+          <iyz>-8.47033e-22</iyz>
+          <izz>0.00133481</izz>
+        </inertia>
+      </inertial>
+      <collision name='wheel2_motor_shaft_link_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.04572</length>
+            <radius>0.07</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0</mu>
+              <mu2>0</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel0_link_collision_1'>
+        <pose>0.066639 0.009192 -0.009192 0.785398 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel0_link_collision_2'>
+        <pose>0.066639 0 0 0.785398 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel0_link_collision_3'>
+        <pose>0.066639 -0.009192 0.009192 0.785398 -0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel10_link_collision_4'>
+        <pose>-0.025359 -0.062307 -0.009192 0.785398 0 -2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel10_link_collision_5'>
+        <pose>-0.033319 -0.057711 0 0.785398 0 -2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel10_link_collision_6'>
+        <pose>-0.04128 -0.053115 0.009192 0.785398 0 -2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel11_link_collision_7'>
+        <pose>0.002176 -0.067235 -0.009192 0.785398 -0 -1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel11_link_collision_8'>
+        <pose>-0.006966 -0.066274 0 0.785398 -0 -1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel11_link_collision_9'>
+        <pose>-0.016108 -0.065313 0.009192 0.785398 -0 -1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel12_link_collision_10'>
+        <pose>0.029335 -0.060537 -0.009192 0.785398 -0 -1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel12_link_collision_11'>
+        <pose>0.020593 -0.063377 0 0.785398 -0 -1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel12_link_collision_12'>
+        <pose>0.01185 -0.066218 0.009192 0.785398 -0 -1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel13_link_collision_13'>
+        <pose>0.051421 -0.043371 -0.009192 0.785398 -0 -0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel13_link_collision_14'>
+        <pose>0.04459 -0.049522 0 0.785398 -0 -0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel13_link_collision_15'>
+        <pose>0.037759 -0.055673 0.009192 0.785398 -0 -0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel14_link_collision_16'>
+        <pose>0.064617 -0.018707 -0.009192 0.785398 0 -0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel14_link_collision_17'>
+        <pose>0.060878 -0.027104 0 0.785398 0 -0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel14_link_collision_18'>
+        <pose>0.057139 -0.035502 0.009192 0.785398 0 -0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel1_link_collision_19'>
+        <pose>0.057139 0.035502 -0.009192 0.785398 -0 0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel1_link_collision_20'>
+        <pose>0.060878 0.027104 0 0.785398 -0 0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel1_link_collision_21'>
+        <pose>0.064617 0.018707 0.009192 0.785398 -0 0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel2_link_collision_22'>
+        <pose>0.037759 0.055673 -0.009192 0.785398 0 0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel2_link_collision_23'>
+        <pose>0.04459 0.049522 0 0.785398 0 0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel2_link_collision_24'>
+        <pose>0.051421 0.043371 0.009192 0.785398 0 0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel3_link_collision_25'>
+        <pose>0.01185 0.066218 -0.009192 0.785398 -0 1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel3_link_collision_26'>
+        <pose>0.020593 0.063377 0 0.785398 -0 1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel3_link_collision_27'>
+        <pose>0.029335 0.060537 0.009192 0.785398 -0 1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel4_link_collision_28'>
+        <pose>-0.016108 0.065313 -0.009192 0.785398 -0 1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel4_link_collision_29'>
+        <pose>-0.006966 0.066274 0 0.785398 -0 1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel4_link_collision_30'>
+        <pose>0.002176 0.067235 0.009192 0.785398 -0 1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel5_link_collision_31'>
+        <pose>-0.04128 0.053115 -0.009192 0.785398 0 2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel5_link_collision_32'>
+        <pose>-0.033319 0.057711 0 0.785398 0 2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel5_link_collision_33'>
+        <pose>-0.025359 0.062307 0.009192 0.785398 0 2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel6_link_collision_34'>
+        <pose>-0.059315 0.031733 -0.009192 0.785398 -0 2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel6_link_collision_35'>
+        <pose>-0.053912 0.039169 0 0.785398 -0 2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel6_link_collision_36'>
+        <pose>-0.048509 0.046606 0.009192 0.785398 -0 2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel7_link_collision_37'>
+        <pose>-0.067094 0.004863 -0.009192 0.785398 -0 2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel7_link_collision_38'>
+        <pose>-0.065183 0.013855 0 0.785398 -0 2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel7_link_collision_39'>
+        <pose>-0.063271 0.022847 0.009192 0.785398 -0 2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel8_link_collision_40'>
+        <pose>-0.063271 -0.022847 -0.009192 0.785398 0 -2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel8_link_collision_41'>
+        <pose>-0.065183 -0.013855 0 0.785398 0 -2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel8_link_collision_42'>
+        <pose>-0.067094 -0.004863 0.009192 0.785398 0 -2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel9_link_collision_43'>
+        <pose>-0.048509 -0.046606 -0.009192 0.785398 0 -2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel9_link_collision_44'>
+        <pose>-0.053912 -0.039169 0 0.785398 0 -2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel9_link_collision_45'>
+        <pose>-0.059315 -0.031733 0.009192 0.785398 0 -2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='wheel2_motor_shaft_link_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_wheel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/White</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel0_link_visual_1'>
+        <pose>0.066639 0 0 0.785398 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel10_link_visual_2'>
+        <pose>-0.033319 -0.057711 0 0.785398 0 -2.0944</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel11_link_visual_3'>
+        <pose>-0.006966 -0.066274 0 0.785398 -0 -1.67552</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel12_link_visual_4'>
+        <pose>0.020593 -0.063377 0 0.785398 -0 -1.25664</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel13_link_visual_5'>
+        <pose>0.04459 -0.049522 0 0.785398 -0 -0.837758</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel14_link_visual_6'>
+        <pose>0.060878 -0.027104 0 0.785398 0 -0.418879</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel1_link_visual_7'>
+        <pose>0.060878 0.027104 0 0.785398 -0 0.418879</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel2_link_visual_8'>
+        <pose>0.04459 0.049522 0 0.785398 0 0.837758</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel3_link_visual_9'>
+        <pose>0.020593 0.063377 0 0.785398 -0 1.25664</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel4_link_visual_10'>
+        <pose>-0.006966 0.066274 0 0.785398 -0 1.67552</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel5_link_visual_11'>
+        <pose>-0.033319 0.057711 0 0.785398 0 2.0944</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel6_link_visual_12'>
+        <pose>-0.053912 0.039169 0 0.785398 -0 2.51327</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel7_link_visual_13'>
+        <pose>-0.065183 0.013855 0 0.785398 -0 2.93215</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel8_link_visual_14'>
+        <pose>-0.065183 -0.013855 0 0.785398 0 -2.93215</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel2_motor_shaft_link_fixed_joint_lump__wheel2_barrel9_link_visual_15'>
+        <pose>-0.053912 -0.039169 0 0.785398 0 -2.51327</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+    <joint name='wheel3_sus_joint' type='prismatic'>
+      <pose relative_to='base_link'>-0.115 -0.132 0.075 0 0 -1.5708</pose>
+      <parent>base_link</parent>
+      <child>wheel3_sus_link</child>
+      <axis>
+        <xyz>0 0 1</xyz>
+        <limit>
+          <lower>-0.02</lower>
+          <upper>0.02</upper>
+          <effort>100</effort>
+          <velocity>1</velocity>
+        </limit>
+        <dynamics>
+          <damping>0.01</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+      <physics>
+        <ode>
+          <limit>
+            <cfm>0</cfm>
+            <erp>0.2</erp>
+          </limit>
+        </ode>
+      </physics>
+    </joint>
+    <link name='wheel3_sus_link'>
+      <pose relative_to='wheel3_sus_joint'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 0 0 0 -0 0</pose>
+        <mass>0.89</mass>
+        <inertia>
+          <ixx>0.00120148</ixx>
+          <ixy>0</ixy>
+          <ixz>0</ixz>
+          <iyy>0.00120148</iyy>
+          <iyz>0</iyz>
+          <izz>0.000227828</izz>
+        </inertia>
+      </inertial>
+      <collision name='wheel3_sus_link_fixed_joint_lump__wheel3_motor_body_link_collision'>
+        <pose>-0.06075 0 0 0 1.5708 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1215</length>
+            <radius>0.02225</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode/>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='wheel3_sus_link_fixed_joint_lump__wheel3_motor_body_link_visual'>
+        <pose>-0.06075 0 0 0 1.5708 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.1215</length>
+            <radius>0.02225</radius>
+          </cylinder>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Gray</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+    <joint name='wheel3_motor_shaft_joint' type='revolute'>
+      <pose relative_to='wheel3_sus_link'>0 0 0 0 1.5708 0</pose>
+      <parent>wheel3_sus_link</parent>
+      <child>wheel3_motor_shaft_link</child>
+      <axis>
+        <xyz>0 0 -1</xyz>
+        <limit>
+          <lower>-1e+16</lower>
+          <upper>1e+16</upper>
+        </limit>
+        <dynamics>
+          <damping>0.01</damping>
+          <friction>0</friction>
+          <spring_reference>0</spring_reference>
+          <spring_stiffness>0</spring_stiffness>
+        </dynamics>
+      </axis>
+    </joint>
+    <link name='wheel3_motor_shaft_link'>
+      <pose relative_to='wheel3_motor_shaft_joint'>0 0 0 0 -0 0</pose>
+      <inertial>
+        <pose>0 -0 0 0 -0 0</pose>
+        <mass>0.619</mass>
+        <inertia>
+          <ixx>0.000756434</ixx>
+          <ixy>-3.38813e-20</ixy>
+          <ixz>-5.29396e-23</ixz>
+          <iyy>0.000756434</iyy>
+          <iyz>8.47033e-22</iyz>
+          <izz>0.00133481</izz>
+        </inertia>
+      </inertial>
+      <collision name='wheel3_motor_shaft_link_collision'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <cylinder>
+            <length>0.04572</length>
+            <radius>0.07</radius>
+          </cylinder>
+        </geometry>
+        <surface>
+          <contact>
+            <ode/>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0</mu>
+              <mu2>0</mu2>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel0_link_collision_1'>
+        <pose>0.066639 -0.009192 -0.009192 -0.785398 0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel0_link_collision_2'>
+        <pose>0.066639 0 0 -0.785398 0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel0_link_collision_3'>
+        <pose>0.066639 0.009192 0.009192 -0.785398 0 0</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel10_link_collision_4'>
+        <pose>-0.04128 -0.053115 -0.009192 -0.785398 -0 -2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel10_link_collision_5'>
+        <pose>-0.033319 -0.057711 0 -0.785398 -0 -2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel10_link_collision_6'>
+        <pose>-0.025359 -0.062307 0.009192 -0.785398 -0 -2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel11_link_collision_7'>
+        <pose>-0.016108 -0.065313 -0.009192 -0.785398 -0 -1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel11_link_collision_8'>
+        <pose>-0.006966 -0.066274 0 -0.785398 -0 -1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel11_link_collision_9'>
+        <pose>0.002176 -0.067235 0.009192 -0.785398 -0 -1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel12_link_collision_10'>
+        <pose>0.01185 -0.066218 -0.009192 -0.785398 -0 -1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel12_link_collision_11'>
+        <pose>0.020593 -0.063377 0 -0.785398 -0 -1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel12_link_collision_12'>
+        <pose>0.029335 -0.060537 0.009192 -0.785398 -0 -1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel13_link_collision_13'>
+        <pose>0.037759 -0.055673 -0.009192 -0.785398 -0 -0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel13_link_collision_14'>
+        <pose>0.04459 -0.049522 0 -0.785398 -0 -0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel13_link_collision_15'>
+        <pose>0.051421 -0.043371 0.009192 -0.785398 -0 -0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel14_link_collision_16'>
+        <pose>0.057139 -0.035502 -0.009192 -0.785398 -0 -0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel14_link_collision_17'>
+        <pose>0.060878 -0.027104 0 -0.785398 -0 -0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel14_link_collision_18'>
+        <pose>0.064617 -0.018707 0.009192 -0.785398 -0 -0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel1_link_collision_19'>
+        <pose>0.064617 0.018707 -0.009192 -0.785398 0 0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel1_link_collision_20'>
+        <pose>0.060878 0.027104 0 -0.785398 0 0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel1_link_collision_21'>
+        <pose>0.057139 0.035502 0.009192 -0.785398 0 0.418879</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel2_link_collision_22'>
+        <pose>0.051421 0.043371 -0.009192 -0.785398 -0 0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel2_link_collision_23'>
+        <pose>0.04459 0.049522 0 -0.785398 -0 0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel2_link_collision_24'>
+        <pose>0.037759 0.055673 0.009192 -0.785398 -0 0.837758</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel3_link_collision_25'>
+        <pose>0.029335 0.060537 -0.009192 -0.785398 0 1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel3_link_collision_26'>
+        <pose>0.020593 0.063377 0 -0.785398 0 1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel3_link_collision_27'>
+        <pose>0.01185 0.066218 0.009192 -0.785398 0 1.25664</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel4_link_collision_28'>
+        <pose>0.002176 0.067235 -0.009192 -0.785398 -0 1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel4_link_collision_29'>
+        <pose>-0.006966 0.066274 0 -0.785398 -0 1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel4_link_collision_30'>
+        <pose>-0.016108 0.065313 0.009192 -0.785398 -0 1.67552</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel5_link_collision_31'>
+        <pose>-0.025359 0.062307 -0.009192 -0.785398 -0 2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel5_link_collision_32'>
+        <pose>-0.033319 0.057711 0 -0.785398 -0 2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel5_link_collision_33'>
+        <pose>-0.04128 0.053115 0.009192 -0.785398 -0 2.0944</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel6_link_collision_34'>
+        <pose>-0.048509 0.046606 -0.009192 -0.785398 0 2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel6_link_collision_35'>
+        <pose>-0.053912 0.039169 0 -0.785398 0 2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel6_link_collision_36'>
+        <pose>-0.059315 0.031733 0.009192 -0.785398 0 2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel7_link_collision_37'>
+        <pose>-0.063271 0.022847 -0.009192 -0.785398 0 2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel7_link_collision_38'>
+        <pose>-0.065183 0.013855 0 -0.785398 0 2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel7_link_collision_39'>
+        <pose>-0.067094 0.004863 0.009192 -0.785398 0 2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel8_link_collision_40'>
+        <pose>-0.067094 -0.004863 -0.009192 -0.785398 -0 -2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel8_link_collision_41'>
+        <pose>-0.065183 -0.013855 0 -0.785398 -0 -2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel8_link_collision_42'>
+        <pose>-0.063271 -0.022847 0.009192 -0.785398 -0 -2.93215</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel9_link_collision_43'>
+        <pose>-0.059315 -0.031733 -0.009192 -0.785398 -0 -2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel9_link_collision_44'>
+        <pose>-0.053912 -0.039169 0 -0.785398 -0 -2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.009</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <collision name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel9_link_collision_45'>
+        <pose>-0.048509 -0.046606 0.009192 -0.785398 -0 -2.51327</pose>
+        <geometry>
+          <sphere>
+            <radius>0.008</radius>
+          </sphere>
+        </geometry>
+        <surface>
+          <contact>
+            <collide_bitmask>65535</collide_bitmask>
+            <ode>
+              <kp>50000</kp>
+              <kd>100</kd>
+              <min_depth>0.001</min_depth>
+            </ode>
+          </contact>
+          <friction>
+            <ode>
+              <mu>0.5</mu>
+              <mu2>0</mu2>
+              <fdir1>0 0 1</fdir1>
+            </ode>
+          </friction>
+        </surface>
+      </collision>
+      <visual name='wheel3_motor_shaft_link_visual'>
+        <pose>0 0 0 0 -0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_wheel_rev.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/White</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel0_link_visual_1'>
+        <pose>0.066639 0 0 -0.785398 0 0</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel10_link_visual_2'>
+        <pose>-0.033319 -0.057711 0 -0.785398 -0 -2.0944</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel11_link_visual_3'>
+        <pose>-0.006966 -0.066274 0 -0.785398 -0 -1.67552</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel12_link_visual_4'>
+        <pose>0.020593 -0.063377 0 -0.785398 -0 -1.25664</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel13_link_visual_5'>
+        <pose>0.04459 -0.049522 0 -0.785398 -0 -0.837758</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel14_link_visual_6'>
+        <pose>0.060878 -0.027104 0 -0.785398 -0 -0.418879</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel1_link_visual_7'>
+        <pose>0.060878 0.027104 0 -0.785398 0 0.418879</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel2_link_visual_8'>
+        <pose>0.04459 0.049522 0 -0.785398 -0 0.837758</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel3_link_visual_9'>
+        <pose>0.020593 0.063377 0 -0.785398 0 1.25664</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel4_link_visual_10'>
+        <pose>-0.006966 0.066274 0 -0.785398 -0 1.67552</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel5_link_visual_11'>
+        <pose>-0.033319 0.057711 0 -0.785398 -0 2.0944</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel6_link_visual_12'>
+        <pose>-0.053912 0.039169 0 -0.785398 0 2.51327</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel7_link_visual_13'>
+        <pose>-0.065183 0.013855 0 -0.785398 0 2.93215</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel8_link_visual_14'>
+        <pose>-0.065183 -0.013855 0 -0.785398 -0 -2.93215</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <visual name='wheel3_motor_shaft_link_fixed_joint_lump__wheel3_barrel9_link_visual_15'>
+        <pose>-0.053912 -0.039169 0 -0.785398 -0 -2.51327</pose>
+        <geometry>
+          <mesh>
+            <scale>1 1 1</scale>
+            <uri>model://mecanumrover_samples/meshes/dae/mecanum_barrel.dae</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <name>Gazebo/Black</name>
+            <uri>file://media/materials/scripts/gazebo.material</uri>
+          </script>
+        </material>
+      </visual>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <velocity_decay/>
+      <gravity>1</gravity>
+      <velocity_decay/>
+    </link>
+    <static>0</static>
+  </model>
+</sdf>

@@ -1,0 +1,10 @@
+material tokati {
+  technique {
+    pass {
+      texture_unit {
+        texture texture.png
+        scale 1 1
+      }
+    }
+  }
+}

@@ -1,0 +1,29 @@
+<sdf version="1.5">
+  <model name="tokati">
+    <static>true</static>
+    <link name="link">
+      <collision name="surface">
+        <geometry>
+          <box>
+            <size>0.42 0.26 0.13</size>
+          </box>
+        </geometry>
+      </collision>
+
+      <visual name="visual_basket">
+        <pose>0 0 -12 1.57 0 0</pose>
+        <geometry>
+          <mesh>
+            <uri>model://dem_tokati/meshes/dem.obj</uri>
+          </mesh>
+        </geometry>
+        <material>
+          <script>
+            <uri>model://dem_tokati/textures/texture.material</uri>
+            <name>tokati</name>
+          </script>
+        </material>
+      </visual>
+    </link>
+  </model>
+</sdf>

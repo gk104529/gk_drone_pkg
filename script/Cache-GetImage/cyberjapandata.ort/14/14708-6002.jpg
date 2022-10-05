@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <meta charset="UTF-8">
+      <title>Object not found!</title>
+    </head>
+    <body>
+    <h1>Object not found!</h1>
+    <p>要求された URL は本サーバでは見つかりませんでした。</p>
+    </body>
+  </html>
