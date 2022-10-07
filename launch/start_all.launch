@@ -1,48 +1,43 @@
 <launch>
 
-    <node pkg="dji_osdk_ros" type="dji_vehicle_node" name="vehicle_node" output="screen">
-        <!-- node parameters -->
-        <param name="acm_name" type="string" value="/dev/ttyACM0"/>
-        <!--<param name="serial_name" type="string" value="/dev/serial/by-id/usb-FTDI_FT232R_USB_UART_A570YRNU-if00-port0"/>-->
-        <param name="serial_name" type="string" value="/dev/ttyUSB0"/>
-        <param name="baud_rate" type="int" value="115200"/>
-        <!--
-        <param name="app_id" type="int" value="1121204"/>-->
-        <param name="app_id" type="int" value="1121362"/>
-        <param name="app_version" type="int" value="1"/>
-        <param name="align_time" type="bool" value="false"/>
-        <!--
-        <param name="enc_key" type="string" value="aae033b39e7aaa576c5528a24be419b14e328750b23684fd33aeaad81b3c7846"/>-->
-        <param name="enc_key" type="string" value="ca631d35f281749c6c546c2008c5e1c44bc62ca8c599c9e131a8e6a9cb3c085e"/>
-        <param name="use_broadcast" type="bool" value="true"/>
+    <node name="image_republish_fpv" pkg="image_transport" type="republish" args="raw compressed">
+        <remap from="in" to="/dji_osdk_ros/fpv_camera_images" />
+        <remap from="out" to="/dji_osdk_ros/fpv_camera_images/compressed" />
     </node>
 
-
-
+    <node name="image_republish_main" pkg="image_transport" type="republish" args="raw compressed">
+        <remap from="in" to="/dji_osdk_ros/main_camera_images" />
+        <remap from="out" to="/dji_osdk_ros/main_camera_images/compressed" />
+    </node>
     
     <node pkg="gk_drone_pkg" type="yolo_to_tf" name="yolo_to_tf" output="screen">
-        <remap from="image_row" to="dji_osdk_ros/main_camera_images">
-        <remap from="image_row_yolo" to="/yolov7/yolov7/visualization">
-        <remap from="dji_osdk_ros/gps_position" to="dji_osdk_ros/gps_position">
-        <remap from="dji_osdk_ros/imu" to="dji_osdk_ros/imu">
-        <param name="frame_id" type="string" value="camera_tf"/>
-        <param name="parent_tf" type="string" value="camera_tf"/>
-        <param name="child_tf" type="string" value="map_origin"/>
-        <param name="file_path" type="string" value="/media/data/drone_ws/src/gk_drone_pkg/script/test_10000.txt"/>
-        <param name="origin_Lat" type="float" value="43.28758036"/>
-        <param name="origin_Lon" type="float" value="143.1873489"/>
-        <param name="thresh_humandetection" type="float" value="1.0"/>
-        <param name="magin_high" type="float" value="560.0"/>
-        <param name="magnification" type="float" value="1.0"/>
-        <param name="write_file_path" type="string" value="/media/data/test_data"/>
+        <remap from="msg_yolo" to="yolov7/yolov7"/>
+        <remap from="image_row_yolo" to="yolov7/yolov7/visualization"/>
+        <remap from="dji_osdk_ros/gps_position" to="dji_osdk_ros/gps_position"/>
+        <remap from="dji_osdk_ros/gimbal_angle" to="dji_osdk_ros/gimbal_angle"/>
+        <remap from="dji_osdk_ros/imu" to="dji_osdk_ros/imu"/>
+        <param name="drone_tf" type="string" value="drone"/>
+        <param name="camera_tf" type="string" value="camera"/>
+        <param name="map_tf" type="string" value="nav"/>
+        <param name="file_path" type="string" value="/home/dji/osdk_ros_ws/src/gk_drone_pkg/script/test_10000.txt"/>
+        <param name="origin_Lat"  value="43.28758036"/>
+        <param name="origin_Lon"  value="143.1873489"/>
+        <param name="thresh_humandetection" value="10.0"/>
+        <param name="magin_high"  value="100"/>
+        <param name="magnification"  value="1.0"/>
+        <param name="write_file_path" type="string" value="/home/dji/osdk_ros_ws/src/gk_drone_pkg/data"/>
     </node>
 
-    <!--node pkg="rosbag" type="record" name="drone_bag_recorder" output="screen"
+    <node pkg="gk_drone_pkg" type="google_drive_test.py" name="google_drive_test" output="screen">
+    </node>  
+
+    <node pkg="rosbag" type="record" name="drone_bag_recorder" output="screen"
           args= "record -o /home/dji/osdk_ros_ws/src/gk_drone_pkg/rosbag/
-                 /dji_osdk_ros/attitude /dji_osdk_ros/flight_status /dji_osdk_ros/fpv_camera_images
+                 /dji_osdk_ros/attitude /dji_osdk_ros/flight_status /dji_osdk_ros/main_camera_images/compressed/compressed 
+                 /dji_osdk_ros/fpv_camera_images/compressed/compressed
                  /dji_osdk_ros/gimbal_angle  /dji_osdk_ros/gps_health /dji_osdk_ros/gps_position
                  /dji_osdk_ros/height_above_takeoff /dji_osdk_ros/imu /dji_osdk_ros/local_frame_ref
-                 /dji_osdk_ros/local_position /dji_osdk_ros/vo_position /dji_osdk_ros/velocity"/> -->
+                 /dji_osdk_ros/local_position /dji_osdk_ros/vo_position /dji_osdk_ros/velocity"/> 
 
 
 </launch>
