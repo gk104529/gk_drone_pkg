@@ -46,6 +46,9 @@ private:
 
   void camera_tf_setter(const geometry_msgs::Vector3StampedConstPtr& angle );
 
+  void tf_to_LonLat_simple(const tf2::Vector3& input_tf, float& Lon , float& Lat);
+  void LonLat_to_tf_simple(const float& Lon ,const float& Lat ,const float& Att, tf2::Vector3& output_tf);
+
   ros::NodeHandle nh_;
   ros::NodeHandle pnh;
   ros::Subscriber camera_th_sub;
@@ -76,6 +79,9 @@ tf_setter::tf_setter():
   pnh.param("drone_start_tf", drone_start_tf,std::string("start"));
   pnh.param("drone_tf", drone_tf,std::string("drone"));
   pnh.param("camera_tf", camera_tf,std::string("camera"));
+
+  pnh.param("origin_lon", origin_lon,0.0);
+  pnh.param("origin_lat", origin_lat,0.0);
 
   d_position_sub_.subscribe(nh_, "dji_osdk_ros/local_position", 1);
   d_imu_sub.subscribe(nh_, "dji_osdk_ros/imu", 1);
@@ -124,7 +130,24 @@ void tf_setter::camera_tf_setter(const geometry_msgs::Vector3StampedConstPtr& an
       transformStamped2.transform.rotation =quat_msg;
       camera_tf_br.sendTransform(transformStamped2);
   }
-    
+
+void image_to_tf::tf_to_LonLat_simple(const tf2::Vector3& input_tf, float& Lon , float& Lat)
+  {
+    float R_Lat = earth_R * std::cos(origin_Lat);
+    Lon = (input_tf.getX()+R_Lat*0.01747737*origin_Lon)/(R_Lat*0.01747737);
+    Lat = (input_tf.getY()+earth_R*0.01747737*origin_Lat)/(earth_R*0.01747737);
+
+    //ROS_INFO("tf1 R_Lat:%f, Lon:%f ,dis:%f", R_Lat,Lon,R_Lat*0.01747737*origin_Lon);
+  }
+
+void image_to_tf::LonLat_to_tf_simple(const float& Lon ,const float& Lat ,const float& Att, tf2::Vector3& output_tf)
+  {
+    float R_Lat = earth_R * std::cos(origin_Lat);
+    float x = R_Lat *0.01747737 * (Lon-origin_Lon);
+    float y = earth_R *0.01747737 * (Lat-origin_Lat);
+    float z = Att-31.5991 ;
+    output_tf.setValue(x,y,z); 
+  }  
   
 
 int main(int argc, char** argv)

@@ -1,0 +1,13 @@
+<launch>
+    
+
+    
+    <node pkg="rosbag" type="record" name="drone_bag_recorder" output="screen"
+          args= "record -o /home/dji/osdk_ros_ws/src/gk_drone_pkg/rosbag/
+                 /dji_osdk_ros/attitude /dji_osdk_ros/flight_status /dji_osdk_ros/fpv_camera_images/compressed/compressed
+                 /dji_osdk_ros/gimbal_angle  /dji_osdk_ros/gps_health /dji_osdk_ros/gps_position
+                 /dji_osdk_ros/height_above_takeoff /dji_osdk_ros/imu /dji_osdk_ros/local_frame_ref
+                 /dji_osdk_ros/local_position /dji_osdk_ros/vo_position /dji_osdk_ros/velocity
+                 /dji_osdk_ros/main_camera_images/compressed/compressed"/> 
+    
+</launch>
