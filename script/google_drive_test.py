@@ -18,8 +18,8 @@ class depth_estimater:
         self.counter=0
         self.gauth = GoogleAuth()
 
-        self.gauth.LoadCredentialsFile("/media/data/drone_ws/src/gk_drone_pkg/script/mycreds.txt")
-        self.gauth.LoadClientConfigFile("/media/data/drone_ws/src/gk_drone_pkg/script/client_secrets.json")
+        self.gauth.LoadCredentialsFile("/home/dji/osdk_ros_ws/src/gk_drone_pkg/script/mycreds.txt")
+        self.gauth.LoadClientConfigFile("/home/dji/osdk_ros_ws/src/gk_drone_pkg/script/client_secrets.json")
 
         if self.gauth.credentials is None:
             self.gauth.LocalWebserverAuth()
@@ -27,31 +27,39 @@ class depth_estimater:
             self.gauth.Refresh()
         else:
             self.gauth.Authorize()
-        self.gauth.SaveCredentialsFile("/media/data/drone_ws/src/gk_drone_pkg/script/mycreds.txt") 
+        self.gauth.SaveCredentialsFile("/home/dji/osdk_ros_ws/src/gk_drone_pkg/script/mycreds.txt") 
             
         self.drive = GoogleDrive(self.gauth)
  
         rospy.init_node('googledrive_uploader', anonymous=True)
-        rospy.Subscriber("chatter", String, self.callback)
+        rospy.Subscriber("save_file", String, self.callback)
 
 
  
     def callback(self, String):
-        if (self.counter==20):
-            f = self.drive.CreateFile({'title' : String.data.split("/")[-1]})
-
-
-            #f.SetContentFile(os.path.join(path,".png"))
-            #f.SetContentFile(os.path.join(path,".txt"))
-            f.SetContentFile(String.data)
-            
-            f['parents'] = [{'id': "1gZehTuWxbyfovkohYqFoew5g1SLLC1re"}]
-            f.Upload()
-            f = None
-            self.counter=0
-            print("upload txt to drive")
-        else:
-            self.counter+=1
+        #if (self.counter==20):
+        f_png = self.drive.CreateFile({'title' : String.data.split("/")[-1]+".png"})
+        path_png = String.data + ".png"
+        f_png.SetContentFile(path_png)
+        f_png['parents'] = [{'id': "1gZehTuWxbyfovkohYqFoew5g1SLLC1re"}]
+        f_png.Upload()
+        f_png = None
+        
+        f_csv = self.drive.CreateFile({'title' : String.data.split("/")[-1]+".csv"})
+        path_csv = String.data + ".csv"
+        f_csv.SetContentFile(path_csv)
+        f_csv['parents'] = [{'id': "1gZehTuWxbyfovkohYqFoew5g1SLLC1re"}]
+        f_csv.Upload()
+        f_csv = None
+        
+        #f.SetContentFile(path_txt)
+        #f.SetContentFile(String.data)
+        
+        
+        #self.counter=0
+        print("upload txt to drive")
+        #else:
+        #    self.counter+=1
         
  
 if __name__ == '__main__':

@@ -1,0 +1,18 @@
+<launch>
+    <node pkg="gk_drone_pkg" type="yolo_to_tf" name="yolo_to_tf" output="screen">
+        <remap from="camera_info" to="frame_id">
+        <remap from="image_row" to="frame_id">
+        <remap from="image_row_yolo" to="frame_id">
+        <remap from="msg_yolo" to="frame_id">
+        <param name="frame_id" type="string" value="camera_tf"/>
+        <param name="parent_tf" type="string" value="camera_tf"/>
+        <param name="child_tf" type="string" value="map_origin"/>
+        <param name="file_path" type="string" value="/media/data/drone_ws/src/gk_drone_pkg/script/test_10000.txt"/>
+        <param name="origin_Lat" type="float" value="43.28758036"/>
+        <param name="origin_Lon" type="float" value="143.1873489"/>
+        <param name="thresh_humandetection" type="float" value="1.0"/>
+        <param name="magin_high" type="float" value="560.0"/>
+        <param name="magnification" type="float" value="1.0"/>
+        <param name="write_file_path" type="string" value="/media/data/test_data"/>
+    </node>
+</launch>
