@@ -759,7 +759,7 @@ void image_to_tf::file_writter(const tf2::Vector3& target){
       
   }else{
       writing_file.open(file_csv.c_str());
-      writing_file << "target_x:"<< target.getX() << ",target_y"<< target.getY() << ",targetz:" << target.getZ()
+      writing_file << std::fixed << std::setprecision(15) << "target_x:"<< target.getX() << ",target_y"<< target.getY() << ",targetz:" << target.getZ()
                << ",target_lon:" << target_lon  <<",target_lat:" << target_lat <<  std::endl; 
   }
   

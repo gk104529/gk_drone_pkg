@@ -72,7 +72,7 @@ $BYOBU select-window -t main
 $BYOBU split-window -h
 $BYOBU select-pane -t 0
 run_command 0 \
-    'sudo docker run --rm -it   --env DISPLAY=$DISPLAY   --device=/dev/dri:/dev/dri   --device /dev/snd:/dev/snd  --volume "/dev:/dev"  --volume "/home/dji/docker_ros:/workspace/docker_ros"   --ipc host   --memory=20096m   --network=host   --cap-add=ALL   --privileged  gkfix:yolov7ros' \
+    'docker run --rm -it   --env DISPLAY=$DISPLAY   --device=/dev/dri:/dev/dri   --device /dev/snd:/dev/snd  --volume "/dev:/dev"  --volume "/home/dji/docker_ros:/workspace/docker_ros"   --ipc host   --memory=20096m   --network=host   --cap-add=ALL   --privileged  gkfix:yolov7ros' \
     'sleep 4'\
     'roslaunch yolov7_ros yolov7.launch'
 
