@@ -58,7 +58,7 @@ run_command 0 \
 # Second: Gain tuner
 $BYOBU select-pane -t 1
 run_command 1 \
-    'rosbag play /home/dji/osdk_ros_ws/src/gk_drone_pkg/rosbag/_2022-10-07-16-31-26.bag -l'
+    'rosbag play /home/dji/osdk_ros_ws/src/gk_drone_pkg/rosbag/jic_day1.bag -l -r 5 -s 50'
 
 
 # --------------------------------------------------------------------------

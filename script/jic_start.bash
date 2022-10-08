@@ -53,12 +53,25 @@ $BYOBU select-pane -t 3
 
 # First: runs the quince_base launch
 run_command 0 \
-    'roslaunch dji_osdk_ros dji_vehicle_node.launch'
+    'roslaunch dji_osdk_ros dji_vehicle_node.launch' 
 
 # Second: Gain tuner
 $BYOBU select-pane -t 1
 run_command 1 \
-    'roslaunch gk_drone_pkg start_all.launch'
+    'sleep 2' \
+    'roslaunch gk_drone_pkg start_all.launch' 
+
+$BYOBU select-pane -t 2
+run_command 2 \
+    'sleep 15' \
+    'rosservice call /setup_camera_stream "cameraType: 0
+start: 1" ' 
+
+$BYOBU select-pane -t 3
+run_command 3 \
+    'sleep 15' \
+    'rosservice call /setup_camera_stream "cameraType: 1
+start: 1" '
 
 
 # --------------------------------------------------------------------------
@@ -69,7 +82,7 @@ $BYOBU select-window -t main
 $BYOBU split-window -h
 $BYOBU select-pane -t 0
 run_command 0 \
-    'sudo docker run --rm -it   --env DISPLAY=$DISPLAY   --device=/dev/dri:/dev/dri   --device /dev/snd:/dev/snd  --volume "/dev:/dev"  --volume "/home/dji/docker_ros:/workspace/docker_ros"   --ipc host   --memory=20096m   --network=host   --cap-add=ALL   --privileged  gkfix:yolov7ros' \
+    'docker run --rm -it   --env DISPLAY=$DISPLAY   --device=/dev/dri:/dev/dri   --device /dev/snd:/dev/snd  --volume "/dev:/dev"  --volume "/home/dji/docker_ros:/workspace/docker_ros"   --ipc host   --memory=20096m   --network=host   --cap-add=ALL   --privileged  gkfix:yolov7ros' \
     
 
 $BYOBU attach-session -t $SESSION

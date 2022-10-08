@@ -23,9 +23,9 @@
         <param name="origin_Lat"  value="43.28758036"/>
         <param name="origin_Lon"  value="143.1873489"/>
         <param name="thresh_humandetection" value="10.0"/>
-        <param name="magin_high"  value="100"/>
+        <param name="magin_high"  value="200"/>
         <param name="magnification"  value="1.0"/>
-        <param name="write_file_path" type="string" value="/home/dji/osdk_ros_ws/src/gk_drone_pkg/data"/>
+        <param name="write_file_path" type="string" value="/home/dji/Dropbox/JIC2022"/>
     </node>
 
     <!--node pkg="gk_drone_pkg" type="google_drive_test.py" name="google_drive_test" output="screen">

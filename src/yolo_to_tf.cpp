@@ -33,6 +33,7 @@
 #include <vision_msgs/Detection2DArray.h>
 #include "std_msgs/String.h"
 #include <sensor_msgs/Imu.h>
+#include <iomanip>
 
 
 static const std::string OPENCV_WINDOW = "Image window";
@@ -153,6 +154,7 @@ private:
   tf2_ros::TransformBroadcaster camera_tf_br;
   std::ofstream writing_file;
   std::string file_csv;
+  float gps_lon,gps_lat;
 
 };
 
@@ -253,9 +255,12 @@ void image_to_tf::camera_tf_setter(const geometry_msgs::Vector3StampedConstPtr& 
 
 void image_to_tf::gps_to_tf(const sensor_msgs::NavSatFixConstPtr& gps,
                             const sensor_msgs::ImuConstPtr& imu )
+
   {
       tf2::Vector3 gps_to_tf_pose;
       tf2::Quaternion gps_to_tf_att;
+      gps_lon=gps->longitude;
+      gps_lat=gps->latitude;
       image_to_tf::LonLat_to_tf_simple(gps->longitude ,gps->latitude ,gps->altitude,gps_to_tf_pose);
       nav_to_drone_gps.setOrigin(gps_to_tf_pose);
       
@@ -498,6 +503,11 @@ void image_to_tf::get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::
         //if (i > head[2] || j > head[3]){
         if (i > 999 || j > 999){
             ROS_WARN("invalid lon or lat . something is wrong");
+            break;
+        }
+
+        if (i < 0 || j < 0){
+            ROS_WARN("invalid lon or lat minus. something is wrong");
             break;
         }
 
@@ -754,13 +764,15 @@ void image_to_tf::file_writter(const tf2::Vector3& target){
   tf_to_LonLat_simple(target,target_lon,target_lat);
 
   if (writing_file.is_open()){
-      writing_file << "target_x:"<< target.getX() << ",target_y"<< target.getY() << ",targetz:" << target.getZ()
-               << ",target_lon:" << target_lon  <<",target_lat:" << target_lat <<  std::endl; 
+      writing_file << std::fixed <<std::setprecision(15) << "target_x:"<< target.getX() << ",target_y"<< target.getY() << ",targetz:" << target.getZ()
+               << ",target_lon:" << target_lon  <<",target_lat:" << target_lat  
+               << ",drone_lon:" << gps_lon  <<",drone_lat:" << gps_lat <<std::endl; 
       
   }else{
       writing_file.open(file_csv.c_str());
-      writing_file << "target_x:"<< target.getX() << ",target_y"<< target.getY() << ",targetz:" << target.getZ()
-               << ",target_lon:" << target_lon  <<",target_lat:" << target_lat <<  std::endl; 
+      writing_file << std::fixed <<std::setprecision(15) << "target_x:"<< target.getX() << ",target_y"<< target.getY() << ",targetz:" << target.getZ()
+               << ",target_lon:" << target_lon  <<",target_lat:" << target_lat 
+               << ",drone_lon:" << gps_lon  <<",drone_lat:" << gps_lat<<  std::endl; 
   }
   
   
