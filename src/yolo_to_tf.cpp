@@ -34,6 +34,7 @@
 #include "std_msgs/String.h"
 #include <sensor_msgs/Imu.h>
 #include <iomanip>
+#include <std_msgs/Empty.h>
 
 
 static const std::string OPENCV_WINDOW = "Image window";
@@ -79,6 +80,7 @@ private:
   ros::Publisher marker_pub_h;
   ros::Publisher plane_pub;
   ros::Publisher save_file_pub;
+  ros::Publisher yolo_starter_pub;
 
   ros::Subscriber camera_th_sub;
   
@@ -137,7 +139,7 @@ private:
   float origin_Lat;
   float origin_Lon;
   float earth_R;
-  float thresh_humandetection,magin_high;
+  float thresh_humandetection,magin_high,start_high;
 
   visualization_msgs::Marker line_strip_high;
   //sensor_msgs::CameraInfoConstPtr camera_msg_th;
@@ -186,7 +188,7 @@ image_to_tf::image_to_tf():
   pnh.param("earth_R", earth_R, float(6377397.155));
 
   pnh.param("thresh_humandetection", thresh_humandetection, float(0.001));
-  pnh.param("magin_high", magin_high, float(560.000000));
+  pnh.param("magin_high", magin_high, float(639.000000));
   pnh.param("magnification", magnification, float(28));
   pnh.param("write_file_path", write_file_path,std::string("/media/data/test_data"));
   pnh.param("drone_tf", drone_tf,std::string("drone"));
@@ -195,6 +197,7 @@ image_to_tf::image_to_tf():
   pnh.param("camera_cy", camera_cy,float(374.67));
   pnh.param("camera_fx", camera_fx,float(320.5));
   pnh.param("camera_fy", camera_fy,float(180.5));
+  pnh.param("start_high", start_high,float(314.6645));
 
   text_reader(file_path);
 
@@ -239,6 +242,8 @@ void image_to_tf::camera_tf_setter(const geometry_msgs::Vector3StampedConstPtr& 
   {   
       tf2::Quaternion quat_tf;
       quat_tf.setRPY(angle->vector.x * 0.01745329, angle->vector.y * 0.01745329, angle->vector.z * 0.01745329);
+      
+
       geometry_msgs::Quaternion quat_msg;
       tf2::convert(quat_tf, quat_msg);
 
@@ -251,6 +256,7 @@ void image_to_tf::camera_tf_setter(const geometry_msgs::Vector3StampedConstPtr& 
       transformStamped2.transform.translation.z = 0;
       transformStamped2.transform.rotation =quat_msg;
       camera_tf_br.sendTransform(transformStamped2);
+      
   }
 
 void image_to_tf::gps_to_tf(const sensor_msgs::NavSatFixConstPtr& gps,
@@ -277,7 +283,6 @@ void image_to_tf::gps_to_tf(const sensor_msgs::NavSatFixConstPtr& gps,
       camera_tf_br.sendTransform(transformStamped2);
 
       nav_to_drone_gps.setRotation(gps_to_tf_att);
-
   }
 
 void image_to_tf::yolo_to_tf(const sensor_msgs::ImageConstPtr& msg ,
@@ -341,8 +346,7 @@ void image_to_tf::yolo_to_tf(const sensor_msgs::ImageConstPtr& msg ,
     std::string file = write_file_path + "/" + oss.str() ;
     file_csv = file + ".csv";
     std::string file_png = file + ".png";
-    cv::imwrite(file_png,original_image);
-    
+    cv::imwrite(file_png,original_image); //ok????    
 
     
     for(int i=0;i<yolo_msg->detections.size();i++){
@@ -517,15 +521,15 @@ void image_to_tf::get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::
         ROS_INFO("i:%d j:%d ",  i , j );
         ROS_INFO("Score:%f ",  Score[i][j]);
 
-        float error_hiegh = dz-dz /sqrtf(dx*dx+dy*dy) * d_L - (Score[i][j] -magin_high)/magnification;
+        float error_hiegh = dz-dz /sqrtf(dx*dx+dy*dy) * d_L - (Score[i][j] -start_high)/magnification;
 
         ROS_INFO("p_P.x>p_C.x  high drone %f; high lined offset %f ; target point high %f ;magn target point high %f",
-                       dz , d_L,Score[i][j] - magin_high ,(Score[i][j] -magin_high)/magnification);
+                       dz , d_L,Score[i][j] - start_high ,(Score[i][j] -start_high)/magnification);
         
         geometry_msgs::Point p_h;
         p_h.x = line_x- p_P.x;
         p_h.y = line_y- p_P.y;
-        p_h.z = (Score[i][j] -magin_high)/magnification;
+        p_h.z = (Score[i][j] -start_high)/magnification;
 
         line_strip_high.points.push_back(p_h);
         
@@ -597,19 +601,23 @@ void image_to_tf::get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::
             ROS_WARN("invalid lon or lat . something is wrong");
             break;
         }
+        if (i < 0 || j < 0){
+            ROS_WARN("invalid lon or lat minus. something is wrong");
+            break;
+        }
 
         ROS_INFO("head[0]:%f  head[1]:%f :head[2]%f :head[3]%f :head[4]%f",  head[0], head[1], head[2], head[3],head[4]);
         ROS_INFO("line_x:%f line_y:%f ",  line_x, line_y);
         ROS_INFO("line_lat:%f line_lon:%f ",  line_lat, line_lon);
         ROS_INFO("i:%d j:%d Score:%f ",  i , j  ,  Score[i][j]);
 
-        float error_hiegh = dz-dz /sqrtf(dx*dx+dy*dy) * d_L -(Score[i][j] -magin_high )/magnification;
-        ROS_INFO("p_P.x>p_C.x  high drone %f; high lined offset %f ; target point high %f ;magn target point high %f",  dz , d_L,Score[i][j] -magin_high ,(Score[i][j] -magin_high)/magnification);
+        float error_hiegh = dz-dz /sqrtf(dx*dx+dy*dy) * d_L -(Score[i][j] -start_high )/magnification;
+        ROS_INFO("p_P.x>p_C.x  high drone %f; high lined offset %f ; target point high %f ;magin target point high %f",  dz , d_L,Score[i][j] -start_high ,(Score[i][j] -start_high)/magnification);
 
         geometry_msgs::Point p_h;
         p_h.x = line_x- p_P.x;
         p_h.y = line_y- p_P.y;
-        p_h.z = (Score[i][j] -magin_high)/magnification;
+        p_h.z = (Score[i][j] -start_high)/magnification;
 
         line_strip_high.points.push_back(p_h);
 
@@ -716,7 +724,7 @@ void image_to_tf::LonLat_to_tf_simple(const float& Lon ,const float& Lat ,const 
     float R_Lat = earth_R * std::cos(origin_Lat);
     float x = R_Lat *0.01747737 * (Lon-origin_Lon);
     float y = earth_R *0.01747737 * (Lat-origin_Lat);
-    float z = Att ;
+    float z = Att-magin_high  ;
     output_tf.setValue(x,y,z); 
   }
 

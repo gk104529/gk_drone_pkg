@@ -189,6 +189,14 @@ target_link_libraries(yolo_to_tf
   ${OpenCV_LIBRARIES}
 )
 
+add_executable(flag_publisher src/flag_publisher.cpp)
+add_dependencies(flag_publisher ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
+target_link_libraries(flag_publisher
+  ${catkin_LIBRARIES}
+  ${OpenCV_LIBRARIES}
+)
+
+
 
 #############
 ## Install ##
