@@ -10,14 +10,7 @@
         <remap from="out" to="/dji_osdk_ros/main_camera_images" />
     </node>
 
-    <node pkg="tf2_ros" type="static_transform_publisher" name="nav_to_start" args="4082.3632156982335 198.76573471925253 -325 0 0 0 nav start_point"/>
-
-    <node pkg="tf2_ros" type="static_transform_publisher" name="nav_to_target1" args="2741.289799514134 2595.0348028455164 0 0 0 0 nav target1"/>
-    <node pkg="tf2_ros" type="static_transform_publisher" name="nav_to_target2" args="1727.673361703669 3278.9151477303426 0 0 0 0 nav target2"/>
-    <node pkg="tf2_ros" type="static_transform_publisher" name="nav_to_target3" args="1882.984660112202 2969.242125539798 0 0 0 0 nav target3"/>
-    <node pkg="tf2_ros" type="static_transform_publisher" name="nav_to_target4" args="2839.3847512487214 2303.9132046440354 0 0 0 0 nav target4"/>
-    <node pkg="tf2_ros" type="static_transform_publisher" name="nav_to_target5" args="1886.8036500274495 2948.0803053122436 0 0 0 0 nav target5"/>
-    
+        
     <node pkg="gk_drone_pkg" type="yolo_to_tf" name="yolo_to_tf" output="screen">
         <remap from="msg_yolo" to="yolov7/yolov7"/>
         <remap from="image_row_yolo" to="yolov7/yolov7/visualization"/>
@@ -28,11 +21,11 @@
         <param name="camera_tf" type="string" value="camera"/>
         <param name="map_tf" type="string" value="nav"/>
         <param name="file_path" type="string" value="/media/data/drone_ws/src/gk_drone_pkg/script/test_10000.txt"/>
-        <param name="origin_Lat"  value="43.28758036"/>
-        <param name="origin_Lon"  value="143.1873489"/>
+        <param name="origin_Lat"  value="43.28936"/>
+        <param name="origin_Lon"  value="143.23502"/>
         <param name="thresh_humandetection" value="10.0"/>
-        <param name="magin_high"  value="639"/>
-        <param name="start_high"  value="314.6645"/>
+        <param name="magin_high"  value="-124"/>
+        <param name="start_high"  value="438"/>
         <param name="magnification"  value="1.0"/>
         <param name="write_file_path" type="string" value="/media/volume/test_yolo"/>
     </node>

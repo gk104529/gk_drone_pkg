@@ -61,8 +61,7 @@ private:
   void get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::Point& p_C);
 
   void yolo_to_tf(const sensor_msgs::ImageConstPtr& msg ,
-                  const vision_msgs::Detection2DArrayConstPtr& yolo_msg,
-                  const sensor_msgs::NavSatFixConstPtr& gps);
+                  const vision_msgs::Detection2DArrayConstPtr& yolo_msg);
 
   void file_writter(const tf2::Vector3& target);
 
@@ -91,14 +90,22 @@ private:
   image_transport::Subscriber image_sub_;
   //image_transport::Publisher image_pub_;
 
+  typedef message_filters::TimeSynchronizer<
+      sensor_msgs::CameraInfo, sensor_msgs::Image >
+      SyncSubscriber;
+
+  message_filters::Subscriber< sensor_msgs::CameraInfo > camera_sub_;
+  message_filters::Subscriber< sensor_msgs::Image > img_sub_;
+  boost::scoped_ptr< SyncSubscriber > sync_sub_;
+
+
 
   typedef message_filters::TimeSynchronizer<
-      sensor_msgs::Image, vision_msgs::Detection2DArray ,sensor_msgs::NavSatFix>
+      sensor_msgs::Image, vision_msgs::Detection2DArray >
       SyncSubscriber_yolo;
 
   message_filters::Subscriber< sensor_msgs::Image > img_yolo_sub_;
   message_filters::Subscriber< vision_msgs::Detection2DArray > msgs_yolo_sub_;
-  message_filters::Subscriber< sensor_msgs::NavSatFix > gps_yolo_sub_;
   boost::scoped_ptr< SyncSubscriber_yolo > sync_yolo_sub_;
 
 
@@ -165,7 +172,6 @@ image_to_tf::image_to_tf():
   
   img_yolo_sub_.subscribe(nh_, "image_row_yolo", 1);
   msgs_yolo_sub_.subscribe(nh_, "msg_yolo", 1);
-  gps_yolo_sub_.subscribe(nh_, "dji_osdk_ros/gps_position_yolo", 1);
 
   gps_sub_.subscribe(nh_, "dji_osdk_ros/gps_position", 1);
   imu_sub_.subscribe(nh_, "dji_osdk_ros/imu", 1);
@@ -208,10 +214,13 @@ image_to_tf::image_to_tf():
 
   const int queue_size(pnh.param("queue_size", 10));
 
+  /*sync_sub_.reset(new SyncSubscriber(queue_size));
+  sync_sub_->connectInput(camera_sub_, img_sub_);
+  sync_sub_->registerCallback(&image_to_tf::imageCb, this);*/
 
 
   sync_yolo_sub_.reset(new SyncSubscriber_yolo(queue_size));
-  sync_yolo_sub_->connectInput(img_yolo_sub_, msgs_yolo_sub_,gps_yolo_sub_) ;
+  sync_yolo_sub_->connectInput(img_yolo_sub_, msgs_yolo_sub_);
   sync_yolo_sub_->registerCallback(&image_to_tf::yolo_to_tf, this);
 
   sync_tfbr_sub_.reset(new SyncSubscriber_tfbr(queue_size));
@@ -256,7 +265,8 @@ void image_to_tf::gps_to_tf(const sensor_msgs::NavSatFixConstPtr& gps,
   {
       tf2::Vector3 gps_to_tf_pose;
       tf2::Quaternion gps_to_tf_att;
-      
+      gps_lon=gps->longitude;
+      gps_lat=gps->latitude;
       image_to_tf::LonLat_to_tf_simple(gps->longitude ,gps->latitude ,gps->altitude,gps_to_tf_pose);
       nav_to_drone_gps.setOrigin(gps_to_tf_pose);
       
@@ -276,8 +286,7 @@ void image_to_tf::gps_to_tf(const sensor_msgs::NavSatFixConstPtr& gps,
   }
 
 void image_to_tf::yolo_to_tf(const sensor_msgs::ImageConstPtr& msg ,
-                             const vision_msgs::Detection2DArrayConstPtr& yolo_msg,
-                             const sensor_msgs::NavSatFixConstPtr& gps)
+                             const vision_msgs::Detection2DArrayConstPtr& yolo_msg)
   {
     if (yolo_msg->detections.size()==0){
       return;
@@ -305,8 +314,6 @@ void image_to_tf::yolo_to_tf(const sensor_msgs::ImageConstPtr& msg ,
       ROS_WARN("%s", ex.what());
       return;
     }
-    gps_lon=gps->longitude;
-    gps_lat=gps->latitude;
 
     tf2::Transform transform_tfmsg;
     transformMsgToTF2(transformStamped.transform, transform_tfmsg);
@@ -458,7 +465,7 @@ void image_to_tf::yolo_to_tf(const sensor_msgs::ImageConstPtr& msg ,
 
       tf2::Vector3 intersection_tf(intersection_x,intersection_y,intersection_z); 
       float intersection_Lon,intersection_Lat;
-      //tf_to_LonLat_simple(intersection_tf * magnification , intersection_Lon , intersection_Lat);
+      tf_to_LonLat_simple(intersection_tf * magnification , intersection_Lon , intersection_Lat);
       //ROS_INFO("tf1 intersection_Lat:%f intersection_Lat:%f ", intersection_Lat,intersection_Lat);
       
       }
@@ -705,9 +712,9 @@ void image_to_tf::text_reader(const std::string& file_path)
 
 void image_to_tf::tf_to_LonLat_simple(const tf2::Vector3& input_tf, float& Lon , float& Lat)
   {
-    float R_Lat = earth_R * std::cos(gps_lat);
-    Lon = (input_tf.getX()+R_Lat*0.01747737*gps_lon)/(R_Lat*0.01747737);
-    Lat = (input_tf.getY()+earth_R*0.01747737*gps_lat)/(earth_R*0.01747737);
+    float R_Lat = earth_R * std::cos(origin_Lat);
+    Lon = (input_tf.getX()+R_Lat*0.01747737*origin_Lon)/(R_Lat*0.01747737);
+    Lat = (input_tf.getY()+earth_R*0.01747737*origin_Lat)/(earth_R*0.01747737);
 
     //ROS_INFO("tf1 R_Lat:%f, Lon:%f ,dis:%f", R_Lat,Lon,R_Lat*0.01747737*origin_Lon);
   }
