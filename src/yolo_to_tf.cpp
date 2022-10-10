@@ -67,7 +67,8 @@ private:
   void file_writter(const tf2::Vector3& target);
 
   void gps_to_tf(const sensor_msgs::NavSatFixConstPtr& gps,
-                 const sensor_msgs::ImuConstPtr& imu); 
+                 const sensor_msgs::ImuConstPtr& imu,
+                 const geometry_msgs::Vector3StampedConstPtr& angle); 
 
   void camera_tf_setter(const geometry_msgs::Vector3StampedConstPtr& angle );
 
@@ -103,11 +104,12 @@ private:
 
 
   typedef message_filters::TimeSynchronizer<
-      sensor_msgs::NavSatFix, sensor_msgs::Imu >
+      sensor_msgs::NavSatFix, sensor_msgs::Imu ,geometry_msgs::Vector3Stamped>
       SyncSubscriber_tfbr;
 
   message_filters::Subscriber< sensor_msgs::NavSatFix > gps_sub_;
   message_filters::Subscriber< sensor_msgs::Imu > imu_sub_;
+  message_filters::Subscriber< geometry_msgs::Vector3Stamped > angle_sub_;
   boost::scoped_ptr< SyncSubscriber_tfbr > sync_tfbr_sub_;  
 
   float c_x,c_y;
@@ -147,6 +149,8 @@ private:
   tf2::Transform nav_to_drone_gps;
   cv::Mat original_image;
   tf2_ros::TransformBroadcaster camera_tf_br;
+  tf2_ros::TransformBroadcaster map_camera_br;
+  tf2_ros::TransformBroadcaster map_drone_br;
   std::ofstream writing_file;
   std::string file_csv;
   float gps_lon,gps_lat;
@@ -169,6 +173,9 @@ image_to_tf::image_to_tf():
 
   gps_sub_.subscribe(nh_, "dji_osdk_ros/gps_position", 1);
   imu_sub_.subscribe(nh_, "dji_osdk_ros/imu", 1);
+  angle_sub_.subscribe(nh_, "dji_osdk_ros/gimbal_angle", 1);
+
+
 
   pnh.param("frame_id", frame_id,std::string("ardrone_base_bottomcam_plugin"));
   pnh.param("col_px", col_px,0);
@@ -215,10 +222,10 @@ image_to_tf::image_to_tf():
   sync_yolo_sub_->registerCallback(&image_to_tf::yolo_to_tf, this);
 
   sync_tfbr_sub_.reset(new SyncSubscriber_tfbr(queue_size));
-  sync_tfbr_sub_->connectInput(gps_sub_, imu_sub_);
+  sync_tfbr_sub_->connectInput(gps_sub_, imu_sub_,angle_sub_);
   sync_tfbr_sub_->registerCallback(&image_to_tf::gps_to_tf, this);
 
-  camera_th_sub  = nh_.subscribe("dji_osdk_ros/gimbal_angle", 10, &image_to_tf::camera_tf_setter,this );
+  //camera_th_sub  = nh_.subscribe("dji_osdk_ros/gimbal_angle", 10, &image_to_tf::camera_tf_setter,this );
 
   //gps_sub  = nh_.subscribe("dji_osdk_ros/gps_position", 10, &image_to_tf::gps_to_tf,this );
   //yolo_topic_sub_=nh_.subscribe<vision_msgs::Detection2DArray>("yolo_to_tf", 10, &image_to_tf::yolo_to_tf, this);
@@ -240,7 +247,7 @@ void image_to_tf::camera_tf_setter(const geometry_msgs::Vector3StampedConstPtr& 
 
       geometry_msgs::TransformStamped transformStamped2;
       transformStamped2.header.stamp = ros::Time::now();
-      transformStamped2.header.frame_id = drone_tf;
+      transformStamped2.header.frame_id = map_tf;
       transformStamped2.child_frame_id = camera_tf;
       transformStamped2.transform.translation.x = 0;
       transformStamped2.transform.translation.y = 0;
@@ -251,9 +258,17 @@ void image_to_tf::camera_tf_setter(const geometry_msgs::Vector3StampedConstPtr& 
   }
 
 void image_to_tf::gps_to_tf(const sensor_msgs::NavSatFixConstPtr& gps,
-                            const sensor_msgs::ImuConstPtr& imu )
+                            const sensor_msgs::ImuConstPtr& imu ,
+                            const geometry_msgs::Vector3StampedConstPtr& angle)
 
   {
+      tf2::Quaternion quat_tf;
+      quat_tf.setRPY(angle->vector.x * 0.01745329, angle->vector.y * 0.01745329, angle->vector.z * 0.01745329);
+      
+
+      geometry_msgs::Quaternion quat_msg;
+      tf2::convert(quat_tf, quat_msg);
+
       tf2::Vector3 gps_to_tf_pose;
       tf2::Quaternion gps_to_tf_att;
       
@@ -262,15 +277,25 @@ void image_to_tf::gps_to_tf(const sensor_msgs::NavSatFixConstPtr& gps,
       
       tf2::convert(imu->orientation , gps_to_tf_att);
 
-      geometry_msgs::TransformStamped transformStamped2;
-      transformStamped2.header.stamp = ros::Time::now();
-      transformStamped2.header.frame_id =map_tf;
-      transformStamped2.child_frame_id = drone_tf;
-      transformStamped2.transform.translation.x = gps_to_tf_pose.getX();
-      transformStamped2.transform.translation.y = gps_to_tf_pose.getY();
-      transformStamped2.transform.translation.z = gps_to_tf_pose.getZ();
-      transformStamped2.transform.rotation =imu->orientation;
-      camera_tf_br.sendTransform(transformStamped2);
+      geometry_msgs::TransformStamped map_cam_msg;
+      map_cam_msg.header.stamp = ros::Time::now();
+      map_cam_msg.header.frame_id = map_tf;
+      map_cam_msg.child_frame_id = camera_tf;
+      map_cam_msg.transform.translation.x = gps_to_tf_pose.getX();
+      map_cam_msg.transform.translation.y = gps_to_tf_pose.getY();
+      map_cam_msg.transform.translation.z = gps_to_tf_pose.getZ();
+      map_cam_msg.transform.rotation =quat_msg;
+      map_camera_br.sendTransform(map_cam_msg);
+
+      geometry_msgs::TransformStamped map_drone_msg;
+      map_drone_msg.header.stamp = ros::Time::now();
+      map_drone_msg.header.frame_id =map_tf;
+      map_drone_msg.child_frame_id = drone_tf;
+      map_drone_msg.transform.translation.x = gps_to_tf_pose.getX();
+      map_drone_msg.transform.translation.y = gps_to_tf_pose.getY();
+      map_drone_msg.transform.translation.z = gps_to_tf_pose.getZ();
+      map_drone_msg.transform.rotation =imu->orientation;
+      map_drone_br.sendTransform(map_drone_msg);
 
       nav_to_drone_gps.setRotation(gps_to_tf_att);
   }
@@ -379,7 +404,7 @@ void image_to_tf::yolo_to_tf(const sensor_msgs::ImageConstPtr& msg ,
       line_strip_plane.type = visualization_msgs::Marker::LINE_STRIP;
 
       // LINE_STRIP/LINE_LIST markers use only the x component of scale, for the line width
-      line_strip_plane.scale.x = 0.1;
+      line_strip_plane.scale.x = 50;
       // Line list is red
       line_strip_plane.color.r = 1.0;
       line_strip_plane.color.a = 1.0;
@@ -395,7 +420,7 @@ void image_to_tf::yolo_to_tf(const sensor_msgs::ImageConstPtr& msg ,
       line_strip_high.type = visualization_msgs::Marker::LINE_STRIP;
 
       // LINE_STRIP/LINE_LIST markers use only the x component of scale, for the line width
-      line_strip_high.scale.x = 0.1;
+      line_strip_high.scale.x = 50;
       // Line list is red
       line_strip_high.color.r = 0.0;
       line_strip_high.color.a = 1.0;
@@ -485,12 +510,12 @@ void image_to_tf::get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::
     
     
     if (p_P.x>p_C.x){
-      for (float start_i=p_P.x; start_i > p_C.x; start_i-=0.02 ){
+      for (float start_i=p_P.x; start_i > p_C.x; start_i-=10 ){
         float line_x = start_i;
         float line_y = (dy) /(dx) * (start_i - p_P.x) + p_P.y;
         float d_L =sqrtf((line_x- p_P.x)*(line_x- p_P.x)  + (line_y- p_P.y)*(line_y- p_P.y)) ;
 
-        tf2::Vector3 line_xy(line_x,line_y,0);
+        tf2::Vector3 line_xy(line_x - p_P.x,line_y- p_P.y,0);
         float line_lat,line_lon;
         tf_to_LonLat_simple(line_xy,line_lon,line_lat);
 
@@ -577,12 +602,12 @@ void image_to_tf::get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::
 
       }
     }else{
-      for (float start_i=p_P.x; start_i < p_C.x; start_i+=0.1 ){
+      for (float start_i=p_P.x; start_i < p_C.x; start_i+=10 ){
         float line_x = start_i;
         float line_y = (dy) /(dx) * (start_i - p_P.x) + p_P.y;
         float d_L =sqrtf((line_x- p_P.x)*(line_x- p_P.x)  + (line_y- p_P.y)*(line_y- p_P.y)) ;
 
-        tf2::Vector3 line_xy(line_x,line_y,0);
+        tf2::Vector3 line_xy(line_x - p_P.x,line_y- p_P.y,0);
         float line_lat,line_lon;
         tf_to_LonLat_simple(line_xy * magnification,line_lon,line_lat);
 
@@ -739,7 +764,7 @@ void image_to_tf::set_line(const cv::Point& point)
     line_strip.type = visualization_msgs::Marker::LINE_STRIP;
 
     // LINE_STRIP/LINE_LIST markers use only the x component of scale, for the line width
-    line_strip.scale.x = 0.1;
+    line_strip.scale.x = 50;
     // Line list is red
     line_strip.color.r = 1.0;
     line_strip.color.a = 1.0;

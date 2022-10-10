@@ -24,7 +24,7 @@
         <param name="origin_Lat"  value="43.28936"/>
         <param name="origin_Lon"  value="143.23502"/>
         <param name="thresh_humandetection" value="10.0"/>
-        <param name="magin_high"  value="-124"/>
+        <param name="magin_high"  value="124"/>
         <param name="start_high"  value="438"/>
         <param name="magnification"  value="1.0"/>
         <param name="write_file_path" type="string" value="/media/volume/test_yolo"/>
