@@ -80,8 +80,10 @@ Visualization Manager:
           Value: true
         drone:
           Value: false
-        nav:
+        gimbal:
           Value: false
+        nav:
+          Value: true
       Marker Scale: 1000
       Name: TF
       Show Arrows: true
@@ -89,10 +91,11 @@ Visualization Manager:
       Show Names: true
       Tree:
         nav:
-          camera:
-            {}
           drone:
             {}
+          gimbal:
+            camera:
+              {}
       Update Interval: 0
       Value: true
     - Class: rviz/Image
@@ -144,25 +147,25 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 1152.16992
+      Distance: 2334.78467
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: -1994.21851
-        Y: 2754.08032
-        Z: 2.83384776
+        X: -193.022705
+        Y: 108.834007
+        Z: 0.116684884
       Focal Shape Fixed Size: false
       Focal Shape Size: 0.0500000007
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 1.56979632
+      Pitch: 1.29979658
       Target Frame: nav
       Value: Orbit (rviz)
-      Yaw: 4.75357294
+      Yaw: 4.54356813
     Saved: ~
 Window Geometry:
   Displays:
@@ -185,4 +188,4 @@ Window Geometry:
     collapsed: false
   Width: 1848
   X: 72
-  Y: 27
+  Y: 0

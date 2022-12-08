@@ -196,8 +196,8 @@ image_to_tf::image_to_tf():
 
   pnh.param("camera_cx", camera_cx,float(374.67));
   pnh.param("camera_cy", camera_cy,float(374.67));
-  pnh.param("camera_fx", camera_fx,float(320.5));
-  pnh.param("camera_fy", camera_fy,float(180.5));
+  pnh.param("camera_fx", camera_fx,float(640.0));
+  pnh.param("camera_fy", camera_fy,float(360.0));
   pnh.param("start_high", start_high,float(314.6645));
 
   text_reader(file_path);
@@ -264,10 +264,15 @@ void image_to_tf::gps_to_tf(const sensor_msgs::NavSatFixConstPtr& gps,
   {
       tf2::Quaternion quat_tf;
       quat_tf.setRPY(angle->vector.x * 0.01745329, angle->vector.y * 0.01745329, angle->vector.z * 0.01745329);
-      
-
       geometry_msgs::Quaternion quat_msg;
       tf2::convert(quat_tf, quat_msg);
+
+      tf2::Quaternion quat_camera_prefix;
+      quat_camera_prefix.setRPY(0,-1.57,0);
+      geometry_msgs::Quaternion camera_prefix_msg;
+      tf2::convert(quat_camera_prefix, camera_prefix_msg);
+
+
 
       tf2::Vector3 gps_to_tf_pose;
       tf2::Quaternion gps_to_tf_att;
@@ -280,12 +285,23 @@ void image_to_tf::gps_to_tf(const sensor_msgs::NavSatFixConstPtr& gps,
       geometry_msgs::TransformStamped map_cam_msg;
       map_cam_msg.header.stamp = ros::Time::now();
       map_cam_msg.header.frame_id = map_tf;
-      map_cam_msg.child_frame_id = camera_tf;
+      map_cam_msg.child_frame_id = "gimbal";
       map_cam_msg.transform.translation.x = gps_to_tf_pose.getX();
       map_cam_msg.transform.translation.y = gps_to_tf_pose.getY();
       map_cam_msg.transform.translation.z = gps_to_tf_pose.getZ();
       map_cam_msg.transform.rotation =quat_msg;
       map_camera_br.sendTransform(map_cam_msg);
+
+      geometry_msgs::TransformStamped cam_pic_msg;
+      map_cam_msg.header.stamp = ros::Time::now();
+      map_cam_msg.header.frame_id = "gimbal";
+      map_cam_msg.child_frame_id = camera_tf;
+      map_cam_msg.transform.translation.x = 0;
+      map_cam_msg.transform.translation.y = 0;
+      map_cam_msg.transform.translation.z = 0;
+      map_cam_msg.transform.rotation =camera_prefix_msg;
+      map_camera_br.sendTransform(map_cam_msg);
+
 
       geometry_msgs::TransformStamped map_drone_msg;
       map_drone_msg.header.stamp = ros::Time::now();
@@ -371,6 +387,7 @@ void image_to_tf::yolo_to_tf(const sensor_msgs::ImageConstPtr& msg ,
       col_px = yolo_msg->detections[i].bbox.center.x;
       row_px = yolo_msg->detections[i].bbox.center.y;
       image_to_tf::set_line(cv::Point(col_px, row_px));
+
 
       float intersection_z= -plane_.coefficients[3]/(normal_vector.getX()*c_x+normal_vector.getY()*c_y+normal_vector.getZ());
       float intersection_x = intersection_z*c_x;
@@ -541,8 +558,8 @@ void image_to_tf::get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::
 
         float error_hiegh = dz-dz /sqrtf(dx*dx+dy*dy) * d_L - (Score[i][j] -start_high)/magnification;
 
-        ROS_INFO("p_P.x>p_C.x  high drone %f; high lined offset %f ; target point high %f ;magn target point high %f",
-                       dz , d_L,Score[i][j] - start_high ,(Score[i][j] -start_high)/magnification);
+        ROS_INFO("p_P.x>p_C.x  high drone %f; high lined offset %f ; target point high %f ;error_hiegh %f",
+                       dz , dz /sqrtf(dx*dx+dy*dy) * d_L,Score[i][j] - start_high ,error_hiegh);
         
         geometry_msgs::Point p_h;
         p_h.x = line_x- p_P.x;
@@ -571,7 +588,7 @@ void image_to_tf::get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::
           //break;
         } */
 
-        if (before_error_hiegh < 0 ){
+        if (error_hiegh < 0 ){
           ROS_INFO("detect human position ; need another problem to improve accuracy %f ",  error_hiegh );
           geometry_msgs::TransformStamped transformStamped;
           transformStamped.header.stamp = ros::Time::now();
@@ -630,8 +647,8 @@ void image_to_tf::get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::
         ROS_INFO("i:%d j:%d Score:%f ",  i , j  ,  Score[i][j]);
 
         float error_hiegh = dz-dz /sqrtf(dx*dx+dy*dy) * d_L -(Score[i][j] -start_high )/magnification;
-        ROS_INFO("p_P.x>p_C.x  high drone %f; high lined offset %f ; target point high %f ;magin target point high %f",  dz , d_L,Score[i][j] -start_high ,(Score[i][j] -start_high)/magnification);
-
+        ROS_INFO("p_P.x>p_C.x  high drone %f; high lined offset %f ; target point high %f ;error_hiegh %f",
+                       dz , dz /sqrtf(dx*dx+dy*dy) * d_L,Score[i][j] - start_high ,error_hiegh);
         geometry_msgs::Point p_h;
         p_h.x = line_x- p_P.x;
         p_h.y = line_y- p_P.y;
@@ -658,7 +675,7 @@ void image_to_tf::get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::
           //break;
         }*/
 
-        if (before_error_hiegh < 0 ){
+        if (error_hiegh < 0 ){
           ROS_INFO("detect human position ; need another problem to improve accuracy %f ",  error_hiegh );
           geometry_msgs::TransformStamped transformStamped;
           transformStamped.header.stamp = ros::Time::now();
@@ -800,11 +817,6 @@ void image_to_tf::file_writter(const tf2::Vector3& target){
                << ",target_lon:" << target_lon  <<",target_lat:" << target_lat 
                << ",drone_lon:" << gps_lon  <<",drone_lat:" << gps_lat<<  std::endl; 
   }
-  
-  
- 
-  
-
 }
 
 
