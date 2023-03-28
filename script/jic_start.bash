@@ -53,25 +53,25 @@ $BYOBU select-pane -t 3
 
 # First: runs the quince_base launch
 run_command 0 \
-    'roslaunch dji_osdk_ros dji_vehicle_node.launch' 
+    'export DISPLAY=":0";roslaunch dji_osdk_ros dji_vehicle_node.launch --wait' 
 
 # Second: Gain tuner
 $BYOBU select-pane -t 1
 run_command 1 \
     'sleep 2' \
-    'roslaunch gk_drone_pkg start_all.launch' 
+    'roslaunch gk_drone_pkg start_all.launch --wait' 
 
 $BYOBU select-pane -t 2
 run_command 2 \
     'sleep 15' \
     'rosservice call /setup_camera_stream "cameraType: 0
-start: 1" ' 
+start: 1" --wait' 
 
 $BYOBU select-pane -t 3
 run_command 3 \
     'sleep 15' \
     'rosservice call /setup_camera_stream "cameraType: 1
-start: 1" '
+start: 1" --wait'
 
 
 # --------------------------------------------------------------------------

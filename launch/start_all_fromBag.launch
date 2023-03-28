@@ -15,20 +15,33 @@
         <remap from="msg_yolo" to="yolov7/yolov7"/>
         <remap from="image_row_yolo" to="yolov7/yolov7/visualization"/>
         <remap from="dji_osdk_ros/gps_position" to="dji_osdk_ros/gps_position"/>
+        <remap from="dji_osdk_ros/gps_position_yolo" to="dji_osdk_ros/gps_position_yolo"/>
         <remap from="dji_osdk_ros/gimbal_angle" to="dji_osdk_ros/gimbal_angle"/>
         <remap from="dji_osdk_ros/imu" to="dji_osdk_ros/imu"/>
         <param name="drone_tf" type="string" value="drone"/>
         <param name="camera_tf" type="string" value="camera"/>
         <param name="map_tf" type="string" value="nav"/>
-        <param name="file_path" type="string" value="/media/data/drone_ws/src/gk_drone_pkg/script/test_10000.txt"/>
-        <param name="origin_Lat"  value="43.28936"/>  <!-- latitude of drone start point  -->
-        <param name="origin_Lon"  value="143.23502"/> <!-- longitude of drone start point-->
+        <param name="file_path" type="string" value="/home/dji/osdk_ros_ws/src/gk_drone_pkg/script/test_aoba.txt"/>
+        <!--param name="origin_Lat"  value="43.28758036"/>
+        <param name="origin_Lon"  value="143.1873489"/> JIC filed start point-->
+        <!-- RTF test start point (20230112)-->
+        <param name="origin_Lat"  value="37.633048"/> 
+        <param name="origin_Lon"  value="141.013337"/>
         <param name="thresh_humandetection" value="10.0"/>
-        <param name="magin_high"  value="314.534"/>  <!-- error  [(elevation mesured by drone) - (start_high)] -->
-        <param name="start_high"  value="438"/>  <!-- elevation of drone start point-->
+        <param name="magin_high"  value="-97.2927093506"/>
+        <param name="start_high"  value="4"/>
+        
         <param name="magnification"  value="1.0"/>
-        <param name="write_file_path" type="string" value="/media/volume/test_yolo"/>
+        <param name="write_file_path" type="string" value="/home/dji/Dropbox/JIC2022"/>
+        <param name="camera_cx"  value="640"/>
+        <param name="camera_cy"  value="360"/>
+        <param name="camera_fx"  value="2000"/>
+        <param name="camera_fy"  value="2000"/>
+        <param name="gimbal_yaw"  value="0"/>
+        <param name="gimbal_pitch"  value="0"/>
+        <param name="gimbal_roll"  value="-1.57"/>
     </node>
+
 
 
     <node name="rviz" pkg="rviz" type="rviz" required="true"
@@ -36,6 +49,8 @@
 
     <!--node pkg="gk_drone_pkg" type="google_drive_test.py" name="google_drive_test" output="screen">
     </node-->  
+
+    <node pkg="tf2_ros" type="static_transform_publisher" name="truth" args="62.852 13.763 0 0 0 0 nav truth" />
 
     
 </launch>

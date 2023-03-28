@@ -7,7 +7,6 @@
 #include <image_transport/image_transport.h>
 #include <geometry_msgs/Twist.h>
 #include <geometry_msgs/Pose.h>
-#include <geometry_msgs/PointStamped.h>
 #include <sensor_msgs/NavSatFix.h>
 #include <turtlesim/Spawn.h>
 #include <tf2_ros/transform_listener.h>
@@ -20,7 +19,6 @@
 #include <opencv2/highgui/highgui.hpp>
 #include <message_filters/subscriber.h>
 #include <message_filters/time_synchronizer.h>
-#include <message_filters/sync_policies/approximate_time.h>
 #include <visualization_msgs/Marker.h>
 #include <jsk_recognition_msgs/SimpleOccupancyGrid.h>
 #include <jsk_recognition_msgs/SimpleOccupancyGridArray.h>
@@ -37,7 +35,6 @@
 #include <sensor_msgs/Imu.h>
 #include <iomanip>
 #include <std_msgs/Empty.h>
-#include <nav_msgs/Path.h>
 
 
 static const std::string OPENCV_WINDOW = "Image window";
@@ -61,11 +58,10 @@ private:
   void tf_to_LonLat_simple(const tf2::Vector3& input_tf, float& Lon , float& Lat);
   void LonLat_to_tf_simple(const float& Lon ,const float& Lat ,const float& Att, tf2::Vector3& output_tf);
 
-  void get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::Point& p_C,ros::Time time_stamp);
+  void get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::Point& p_C);
 
   void yolo_to_tf(const sensor_msgs::ImageConstPtr& msg ,
-                  const vision_msgs::Detection2DArrayConstPtr& yolo_msg,
-                  const sensor_msgs::NavSatFixConstPtr& gps);
+                  const vision_msgs::Detection2DArrayConstPtr& yolo_msg);
 
   void file_writter(const tf2::Vector3& target);
 
@@ -73,7 +69,7 @@ private:
                  const geometry_msgs::QuaternionStampedConstPtr& attitude,
                  const geometry_msgs::Vector3StampedConstPtr& angle); 
 
-  void time_setter(const sensor_msgs::ImageConstPtr& img );
+  void camera_tf_setter(const geometry_msgs::Vector3StampedConstPtr& angle );
 
 
 
@@ -86,10 +82,8 @@ private:
   ros::Publisher plane_pub;
   ros::Publisher save_file_pub;
   ros::Publisher yolo_starter_pub;
-  ros::Publisher gps_pub;
-  ros::Publisher target_point_pub;
 
-  ros::Subscriber camera_sub;
+  ros::Subscriber camera_th_sub;
   
   //ros::Subscriber yolo_topic_sub_;
 
@@ -98,14 +92,13 @@ private:
   //image_transport::Publisher image_pub_;
 
 
-  typedef message_filters::sync_policies::ApproximateTime<
-      sensor_msgs::Image, vision_msgs::Detection2DArray ,sensor_msgs::NavSatFix>
+  typedef message_filters::TimeSynchronizer<
+      sensor_msgs::Image, vision_msgs::Detection2DArray >
       SyncSubscriber_yolo;
 
   message_filters::Subscriber< sensor_msgs::Image > img_yolo_sub_;
   message_filters::Subscriber< vision_msgs::Detection2DArray > msgs_yolo_sub_;
-  message_filters::Subscriber< sensor_msgs::NavSatFix > gps_yolo_sub_;
-  boost::scoped_ptr< message_filters::Synchronizer<SyncSubscriber_yolo > > sync_yolo_sub_;
+  boost::scoped_ptr< SyncSubscriber_yolo > sync_yolo_sub_;
 
 
   typedef message_filters::TimeSynchronizer<
@@ -122,8 +115,6 @@ private:
   float head[5];
   float magnification;
   float camera_cx,camera_cy,camera_fx,camera_fy;
-
-  float gimbal_yaw,gimbal_pitch,gimbal_roll;
   
 
   std::string frame_id,camera_tf,map_tf,file_path,drone_tf;
@@ -136,7 +127,6 @@ private:
   jsk_recognition_msgs::SimpleOccupancyGrid plane_;
   jsk_recognition_msgs::SimpleOccupancyGridArray plane_input;
   tf2_ros::TransformBroadcaster dynamic_br_;
-  tf2_ros::TransformBroadcaster tf_intersection_br_;
   tf2_ros::TransformBroadcaster dynamic_high_;
   tf2_ros::TransformBroadcaster dynamic_br_drone;
   float origin_Lat;
@@ -158,13 +148,10 @@ private:
   cv::Mat original_image;
   tf2_ros::TransformBroadcaster camera_tf_br;
   tf2_ros::TransformBroadcaster map_camera_br;
-  tf2_ros::TransformBroadcaster map_dr_now_msg_br;
-  tf2_ros::TransformBroadcaster cam_pic_msg_br;
   tf2_ros::TransformBroadcaster map_drone_br;
   std::ofstream writing_file;
   std::string file_csv;
   float gps_lon,gps_lat;
-  ros::Time stamp;
 
 };
 
@@ -180,7 +167,6 @@ image_to_tf::image_to_tf():
   
   img_yolo_sub_.subscribe(nh_, "image_row_yolo", 1);
   msgs_yolo_sub_.subscribe(nh_, "msg_yolo", 1);
-  gps_yolo_sub_.subscribe(nh_, "dji_osdk_ros/gps_position_yolo", 1);
 
   gps_sub_.subscribe(nh_, "dji_osdk_ros/gps_position", 1);
   attitude_sub_.subscribe(nh_, "dji_osdk_ros/attitude", 1);
@@ -211,13 +197,6 @@ image_to_tf::image_to_tf():
   pnh.param("camera_fy", camera_fy,float(360.0));
   pnh.param("start_high", start_high,float(314.6645));
 
-  pnh.param("gimbal_yaw", gimbal_yaw,float(0));
-  pnh.param("gimbal_pitch", gimbal_pitch,float(0));
-  pnh.param("gimbal_roll", gimbal_roll,float(-1.57));
-
-  stamp = ros::Time::now();
-
-
   text_reader(file_path);
 
 
@@ -228,29 +207,25 @@ image_to_tf::image_to_tf():
 
   plane_pub = nh_.advertise<jsk_recognition_msgs::SimpleOccupancyGridArray>("plane_maker", 10);
   save_file_pub = nh_.advertise<std_msgs::String>("save_file", 10);
-  gps_pub = nh_.advertise<sensor_msgs::NavSatFix>("dji_osdk_ros/gps_position_yolo", 10);
-  target_point_pub = nh_.advertise<geometry_msgs::PointStamped>("target_point", 10);
+  
+
 
   const int queue_size(pnh.param("queue_size", 10));
 
 
 
-  sync_yolo_sub_.reset(
-                  new message_filters::Synchronizer<SyncSubscriber_yolo>(
-                  SyncSubscriber_yolo(10000),img_yolo_sub_, msgs_yolo_sub_,gps_yolo_sub_));
-
-  //sync_yolo_sub_->connectInput(img_yolo_sub_, msgs_yolo_sub_,gps_yolo_sub_) ;
+  sync_yolo_sub_.reset(new SyncSubscriber_yolo(queue_size));
+  sync_yolo_sub_->connectInput(img_yolo_sub_, msgs_yolo_sub_) ;
   sync_yolo_sub_->registerCallback(&image_to_tf::yolo_to_tf, this);
 
   sync_tfbr_sub_.reset(new SyncSubscriber_tfbr(queue_size));
   sync_tfbr_sub_->connectInput(gps_sub_, attitude_sub_,angle_sub_);
   sync_tfbr_sub_->registerCallback(&image_to_tf::gps_to_tf, this);
 
-  camera_sub  = nh_.subscribe("dji_osdk_ros/main_camera_images", 10, &image_to_tf::time_setter,this );
+  //camera_th_sub  = nh_.subscribe("dji_osdk_ros/gimbal_angle", 10, &image_to_tf::camera_tf_setter,this );
 
   //gps_sub  = nh_.subscribe("dji_osdk_ros/gps_position", 10, &image_to_tf::gps_to_tf,this );
   //yolo_topic_sub_=nh_.subscribe<vision_msgs::Detection2DArray>("yolo_to_tf", 10, &image_to_tf::yolo_to_tf, this);
-
 
 }
 
@@ -258,9 +233,24 @@ image_to_tf::~image_to_tf()
   {
   }
 
-void image_to_tf::time_setter(const sensor_msgs::ImageConstPtr& img )
+void image_to_tf::camera_tf_setter(const geometry_msgs::Vector3StampedConstPtr& angle )
   {   
-      stamp = img->header.stamp;
+      tf2::Quaternion quat_tf;
+      quat_tf.setRPY(angle->vector.x * 0.01745329, angle->vector.y * 0.01745329, angle->vector.z * 0.01745329);
+      
+
+      geometry_msgs::Quaternion quat_msg;
+      tf2::convert(quat_tf, quat_msg);
+
+      geometry_msgs::TransformStamped transformStamped2;
+      transformStamped2.header.stamp = ros::Time::now();
+      transformStamped2.header.frame_id = map_tf;
+      transformStamped2.child_frame_id = camera_tf;
+      transformStamped2.transform.translation.x = 0;
+      transformStamped2.transform.translation.y = 0;
+      transformStamped2.transform.translation.z = 0;
+      transformStamped2.transform.rotation =quat_msg;
+      camera_tf_br.sendTransform(transformStamped2);
       
   }
 
@@ -270,16 +260,19 @@ void image_to_tf::gps_to_tf(const sensor_msgs::NavSatFixConstPtr& gps,
 
   {
       tf2::Quaternion quat_tf;
-      quat_tf.setRPY(angle->vector.y * 0.01745329, angle->vector.x * 0.01745329, angle->vector.z * -0.01745329);
+      quat_tf.setRPY(angle->vector.x * 0.01745329, angle->vector.y * -0.01745329, angle->vector.z * -0.01745329);
       geometry_msgs::Quaternion quat_msg;
       tf2::convert(quat_tf, quat_msg);
 
       tf2::Quaternion quat_camera_prefix;
-      //quat_camera_prefix.setRPY(-1.57,3.14,0);
-      quat_camera_prefix.setRPY(gimbal_roll,gimbal_pitch,gimbal_yaw);
+      quat_camera_prefix.setRPY(-1.57,0,-1.57);
       geometry_msgs::Quaternion camera_prefix_msg;
       tf2::convert(quat_camera_prefix, camera_prefix_msg);
-    
+      gps_lon=gps->longitude;
+      gps_lat=gps->latitude;
+
+
+
 
       tf2::Vector3 gps_to_tf_pose;
       tf2::Quaternion gps_to_tf_att;
@@ -299,27 +292,15 @@ void image_to_tf::gps_to_tf(const sensor_msgs::NavSatFixConstPtr& gps,
       map_cam_msg.transform.rotation =quat_msg;
       map_camera_br.sendTransform(map_cam_msg);
 
-      geometry_msgs::TransformStamped map_dr_now_msg;
-      map_dr_now_msg.header.stamp = ros::Time::now();
-      map_dr_now_msg.header.frame_id = map_tf;
-      map_dr_now_msg.child_frame_id = "drone_xy_now";
-      map_dr_now_msg.transform.translation.x = gps_to_tf_pose.getX();
-      map_dr_now_msg.transform.translation.y = gps_to_tf_pose.getY();
-      map_dr_now_msg.transform.translation.z = 0;
-      map_dr_now_msg.transform.rotation =quat_msg;
-      map_dr_now_msg_br.sendTransform(map_dr_now_msg);
-
-
-
       geometry_msgs::TransformStamped cam_pic_msg;
-      cam_pic_msg.header.stamp = ros::Time::now();
-      cam_pic_msg.header.frame_id = "gimbal";
-      cam_pic_msg.child_frame_id = camera_tf;
-      cam_pic_msg.transform.translation.x = 0;
-      cam_pic_msg.transform.translation.y = 0;
-      cam_pic_msg.transform.translation.z = 0;
-      cam_pic_msg.transform.rotation =camera_prefix_msg;
-      cam_pic_msg_br.sendTransform(cam_pic_msg);
+      map_cam_msg.header.stamp = ros::Time::now();
+      map_cam_msg.header.frame_id = "gimbal";
+      map_cam_msg.child_frame_id = camera_tf;
+      map_cam_msg.transform.translation.x = 0;
+      map_cam_msg.transform.translation.y = 0;
+      map_cam_msg.transform.translation.z = 0;
+      map_cam_msg.transform.rotation =camera_prefix_msg;
+      map_camera_br.sendTransform(map_cam_msg);
 
 
       geometry_msgs::TransformStamped map_drone_msg;
@@ -333,22 +314,10 @@ void image_to_tf::gps_to_tf(const sensor_msgs::NavSatFixConstPtr& gps,
       map_drone_br.sendTransform(map_drone_msg);
 
       nav_to_drone_gps.setRotation(gps_to_tf_att);
-
-
-      sensor_msgs::NavSatFix gps_time;
-      gps_time.status = gps->status;
-      gps_time.latitude = gps->latitude;
-      gps_time.longitude = gps->longitude;
-      gps_time.altitude = gps->altitude;
-      gps_time.position_covariance = gps->position_covariance;
-      gps_time.position_covariance_type = gps->position_covariance_type;
-      gps_time.header.stamp = ros::Time::now();
-      gps_pub.publish(gps_time);
   }
 
 void image_to_tf::yolo_to_tf(const sensor_msgs::ImageConstPtr& msg ,
-                             const vision_msgs::Detection2DArrayConstPtr& yolo_msg,
-                             const sensor_msgs::NavSatFixConstPtr& gps)
+                             const vision_msgs::Detection2DArrayConstPtr& yolo_msg)
   {
     if (yolo_msg->detections.size()==0){
       return;
@@ -369,22 +338,17 @@ void image_to_tf::yolo_to_tf(const sensor_msgs::ImageConstPtr& msg ,
    
     try
     {
-      transformStamped = tfBuffer.lookupTransform(camera_tf, map_tf,yolo_msg->header.stamp ,ros::Duration(0.1));
+      transformStamped = tfBuffer.lookupTransform(camera_tf, map_tf, ros::Time(0));
     }
     catch (tf2::TransformException& ex)
     {
       ROS_WARN("%s", ex.what());
       return;
     }
-    gps_lon=gps->longitude;
-    gps_lat=gps->latitude;
     
-    tf2::Vector3 gps_to_tf_pose;
-    image_to_tf::LonLat_to_tf_simple(gps->longitude ,gps->latitude ,gps->altitude,gps_to_tf_pose);
-
     tf2::Transform transform_tfmsg;
     transformMsgToTF2(transformStamped.transform, transform_tfmsg);
-    //transform_tfmsg.setOrigin(gps_to_tf_pose);
+
 
 
     tf2::Vector3 map_point=transform_tfmsg.getOrigin();
@@ -392,11 +356,11 @@ void image_to_tf::yolo_to_tf(const sensor_msgs::ImageConstPtr& msg ,
     tf2::Vector3 normal_vector=transform_tfmsg * map_z - map_point;
        
     plane_.header.frame_id = camera_tf;
-    plane_.header.stamp = yolo_msg->header.stamp;
+    plane_.header.stamp = ros::Time::now();
 
     
     plane_input.header.frame_id = camera_tf;
-    plane_input.header.stamp = yolo_msg->header.stamp;
+    plane_input.header.stamp = ros::Time::now();
 
     plane_.coefficients[0]=normal_vector.getX();
     plane_.coefficients[1]=normal_vector.getY();
@@ -425,21 +389,6 @@ void image_to_tf::yolo_to_tf(const sensor_msgs::ImageConstPtr& msg ,
       float intersection_z= -plane_.coefficients[3]/(normal_vector.getX()*c_x+normal_vector.getY()*c_y+normal_vector.getZ());
       float intersection_x = intersection_z*c_x;
       float intersection_y = intersection_z*c_y;
-
-      geometry_msgs::TransformStamped tf_intersection;
-      tf_intersection.header.stamp = yolo_msg->header.stamp;
-      tf_intersection.header.frame_id = camera_tf;
-      tf_intersection.child_frame_id = "target_intersection";
-      tf_intersection.transform.translation.x = intersection_x;
-      tf_intersection.transform.translation.y = intersection_y;
-      tf_intersection.transform.translation.z = intersection_z;
-      tf_intersection.transform.rotation.x = 0;
-      tf_intersection.transform.rotation.y = 0;
-      tf_intersection.transform.rotation.z = 0;
-      tf_intersection.transform.rotation.w = 1;
-      tf_intersection_br_.sendTransform(tf_intersection);
-
-
       
       geometry_msgs::Point point_msg1;
       point_msg1.x=0;
@@ -449,21 +398,18 @@ void image_to_tf::yolo_to_tf(const sensor_msgs::ImageConstPtr& msg ,
 
       plane_input.grids.push_back(plane_);
 
-      plane_pub.publish(plane_input);
+      //plane_pub.publish(plane_input);
 
       tf2::Vector3 intersection(intersection_x,intersection_y,intersection_z);
       tf2::Transform child_to_parent =transform_tfmsg.inverse();
       tf2::Vector3 line_mapping= child_to_parent * intersection;
-
-      ROS_INFO("drone position in yolo from tf  x=%f y=%f z=%f",  child_to_parent.getOrigin().getX(),child_to_parent.getOrigin().getY(),child_to_parent.getOrigin().getZ());
-      ROS_INFO("drone position in yolo from gps x=%f y=%f z=%f",  gps_to_tf_pose.getX(),gps_to_tf_pose.getY(),gps_to_tf_pose.getZ());
       
 
       
 
       visualization_msgs::Marker line_strip_plane;
       line_strip_plane.header.frame_id = map_tf;
-      line_strip_plane.header.stamp = yolo_msg->header.stamp;
+      line_strip_plane.header.stamp = ros::Time::now();
       line_strip_plane.ns = "points_and_lines";
       line_strip_plane.action = visualization_msgs::Marker::ADD;
       line_strip_plane.pose.orientation.w = 1.0;
@@ -479,7 +425,7 @@ void image_to_tf::yolo_to_tf(const sensor_msgs::ImageConstPtr& msg ,
 
       
       line_strip_high.header.frame_id = "drone_xy";
-      line_strip_high.header.stamp = yolo_msg->header.stamp;
+      line_strip_high.header.stamp = ros::Time::now();
       line_strip_high.ns = "high";
       line_strip_high.action = visualization_msgs::Marker::ADD;
       line_strip_high.pose.orientation.w = 1.0;
@@ -502,9 +448,9 @@ void image_to_tf::yolo_to_tf(const sensor_msgs::ImageConstPtr& msg ,
       geometry_msgs::Point p_1;
       p_1.x = child_to_parent.getOrigin().getX();
       p_1.y = child_to_parent.getOrigin().getY();
-      p_1.z = child_to_parent.getOrigin().getZ();
+      p_1.z = 0;
       line_strip_plane.points.push_back(p_1);
-      
+      p_1.z = child_to_parent.getOrigin().getZ();
 
       geometry_msgs::Point p_2;
       p_2.x = line_mapping.getX();
@@ -517,14 +463,19 @@ void image_to_tf::yolo_to_tf(const sensor_msgs::ImageConstPtr& msg ,
       marker_pub_p.publish(line_strip_plane);
 
       
-      get_line_high(p_1,p_2,yolo_msg->header.stamp);
+      get_line_high(p_1,p_2);
 
       geometry_msgs::TransformStamped transformStamped2;
-      transformStamped2.header.stamp = yolo_msg->header.stamp;
+      transformStamped2.header.stamp = ros::Time::now();
       transformStamped2.header.frame_id = map_tf;
       transformStamped2.child_frame_id = "drone_xy";
-      transformStamped2.transform = tf2::toMsg(child_to_parent);
+      transformStamped2.transform.translation.x = p_1.x;
+      transformStamped2.transform.translation.y = p_1.y;
       transformStamped2.transform.translation.z = 0;
+      transformStamped2.transform.rotation.x = 0;
+      transformStamped2.transform.rotation.y = 0;
+      transformStamped2.transform.rotation.z = 0;
+      transformStamped2.transform.rotation.w = 1;
       dynamic_br_drone.sendTransform(transformStamped2);
 
       transformMsgToTF2(transformStamped2.transform, nav_to_dronexy);
@@ -532,23 +483,22 @@ void image_to_tf::yolo_to_tf(const sensor_msgs::ImageConstPtr& msg ,
       
       
       geometry_msgs::TransformStamped transformStamped;
-      transformStamped.header.stamp = yolo_msg->header.stamp;
-      transformStamped.header.frame_id = map_tf;
+      transformStamped.header.stamp = ros::Time::now();
+      transformStamped.header.frame_id = camera_tf;
       transformStamped.child_frame_id = "target";
-      transformStamped.transform.translation.x = p_2.x;
-      transformStamped.transform.translation.y = p_2.y;
-      transformStamped.transform.translation.z = p_2.z;
+      transformStamped.transform.translation.x = intersection_x;
+      transformStamped.transform.translation.y = intersection_y;
+      transformStamped.transform.translation.z = intersection_z;
       transformStamped.transform.rotation.x = 0;
       transformStamped.transform.rotation.y = 0;
       transformStamped.transform.rotation.z = 0;
       transformStamped.transform.rotation.w = 1;
       dynamic_br_.sendTransform(transformStamped);
 
-      geometry_msgs::PointStamped target_point;
-      target_point.header.stamp = yolo_msg->header.stamp;
-      target_point.header.frame_id = map_tf;
-      target_point.point = p_2;
-      target_point_pub.publish(target_point);
+      tf2::Vector3 intersection_tf(intersection_x,intersection_y,intersection_z); 
+      float intersection_Lon,intersection_Lat;
+      //tf_to_LonLat_simple(intersection_tf * magnification , intersection_Lon , intersection_Lat);
+      //ROS_INFO("tf1 intersection_Lat:%f intersection_Lat:%f ", intersection_Lat,intersection_Lat);
       
       }
   writing_file.close();
@@ -558,19 +508,18 @@ void image_to_tf::yolo_to_tf(const sensor_msgs::ImageConstPtr& msg ,
   save_file_pub.publish(file_msg);
 
 
-
   }
 
 
 
 
-void image_to_tf::get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::Point& p_C ,ros::Time time_stamp)
+void image_to_tf::get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::Point& p_C)
   {   
     float dx = p_C.x- p_P.x ;
     float dy = p_C.y- p_P.y ;
     float dz = std::abs(p_C.z - p_P.z) ;
 
-    //ROS_INFO("p_C.z:%f p_P.z:%f ",  p_C.z, p_P.z);
+    ROS_INFO("p_C.z:%f p_P.z:%f ",  p_C.z, p_P.z);
     float before_error_hiegh=0;
     
     
@@ -598,16 +547,16 @@ void image_to_tf::get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::
             break;
         }
 
-        //ROS_INFO("line_lat - head[1]:%f line_lon - head[0]:%f :head%f",  line_lat - head[1], line_lon - head[0],head[4]);
-        //ROS_INFO("line_x:%f line_y:%f ",  line_x, line_y);
-        //ROS_INFO("line_lat:%f line_lon:%f ",  line_lat, line_lon);
-        //ROS_INFO("i:%d j:%d ",  i , j );
-        //ROS_INFO("Score:%f ",  Score[i][j]);
+        ROS_INFO("line_lat - head[1]:%f line_lon - head[0]:%f :head%f",  line_lat - head[1], line_lon - head[0],head[4]);
+        ROS_INFO("line_x:%f line_y:%f ",  line_x, line_y);
+        ROS_INFO("line_lat:%f line_lon:%f ",  line_lat, line_lon);
+        ROS_INFO("i:%d j:%d ",  i , j );
+        ROS_INFO("Score:%f ",  Score[i][j]);
 
         float error_hiegh = dz-dz /sqrtf(dx*dx+dy*dy) * d_L - (Score[i][j] -start_high)/magnification;
 
-        //ROS_INFO("p_P.x>p_C.x  high drone %f; high lined offset %f ; target point high %f ;error_hiegh %f",
-        //               dz , dz /sqrtf(dx*dx+dy*dy) * d_L,Score[i][j] - start_high ,error_hiegh);
+        ROS_INFO("p_P.x>p_C.x  high drone %f; high lined offset %f ; target point high %f ;error_hiegh %f",
+                       dz , dz /sqrtf(dx*dx+dy*dy) * d_L,Score[i][j] - start_high ,error_hiegh);
         
         geometry_msgs::Point p_h;
         p_h.x = line_x- p_P.x;
@@ -639,12 +588,12 @@ void image_to_tf::get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::
         if (error_hiegh < 0 ){
           ROS_INFO("detect human position ; need another problem to improve accuracy %f ",  error_hiegh );
           geometry_msgs::TransformStamped transformStamped;
-          transformStamped.header.stamp = time_stamp;
-          transformStamped.header.frame_id = map_tf;
+          transformStamped.header.stamp = ros::Time::now();
+          transformStamped.header.frame_id = "drone_xy";
           transformStamped.child_frame_id = "target_highfix";
-          transformStamped.transform.translation.x = line_x;
-          transformStamped.transform.translation.y = line_y;
-          transformStamped.transform.translation.z = dz /sqrtf(dx*dx+dy*dy) * d_L;
+          transformStamped.transform.translation.x = line_x- p_P.x;
+          transformStamped.transform.translation.y = line_y- p_P.y;
+          transformStamped.transform.translation.z = dz-dz /sqrtf(dx*dx+dy*dy) * d_L;
           transformStamped.transform.rotation.x = 0;
           transformStamped.transform.rotation.y = 0;
           transformStamped.transform.rotation.z = 0;
@@ -652,8 +601,10 @@ void image_to_tf::get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::
           dynamic_high_.sendTransform(transformStamped);
           marker_pub_h.publish(line_strip_high);
 
-          tf2::Vector3 map_to_target(line_x,line_y,dz /sqrtf(dx*dx+dy*dy) * d_L);
-          file_writter(map_to_target);
+          tf2::Vector3 drone_to_target(line_x- p_P.x,line_y- p_P.y,dz-dz /sqrtf(dx*dx+dy*dy) * d_L);
+          tf2::Vector3 origin_to_target = nav_to_dronexy.inverse() * drone_to_target;
+
+          file_writter(origin_to_target);
 
           break;
         }
@@ -664,23 +615,6 @@ void image_to_tf::get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::
         marker_pub_h.publish(line_strip_high);
 
       }
-      ROS_INFO("range out!!!!! " );
-      geometry_msgs::TransformStamped transformStamped;
-      transformStamped.header.stamp = time_stamp;
-      transformStamped.header.frame_id = map_tf;
-      transformStamped.child_frame_id = "target_highfix";
-      transformStamped.transform.translation.x = p_C.x;
-      transformStamped.transform.translation.y = p_C.y;
-      transformStamped.transform.translation.z = p_C.z;
-      transformStamped.transform.rotation.x = 0;
-      transformStamped.transform.rotation.y = 0;
-      transformStamped.transform.rotation.z = 0;
-      transformStamped.transform.rotation.w = 1;
-      dynamic_high_.sendTransform(transformStamped);
-      marker_pub_h.publish(line_strip_high);
-
-      tf2::Vector3 map_to_target( p_C.x, p_C.y,0);
-      file_writter(map_to_target);
     }else{
       for (float start_i=p_P.x; start_i < p_C.x; start_i+=10 ){
         float line_x = start_i;
@@ -704,14 +638,14 @@ void image_to_tf::get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::
             break;
         }
 
-        //ROS_INFO("head[0]:%f  head[1]:%f :head[2]%f :head[3]%f :head[4]%f",  head[0], head[1], head[2], head[3],head[4]);
-        //ROS_INFO("line_x:%f line_y:%f ",  line_x, line_y);
-        //ROS_INFO("line_lat:%f line_lon:%f ",  line_lat, line_lon);
-        //ROS_INFO("i:%d j:%d Score:%f ",  i , j  ,  Score[i][j]);
+        ROS_INFO("head[0]:%f  head[1]:%f :head[2]%f :head[3]%f :head[4]%f",  head[0], head[1], head[2], head[3],head[4]);
+        ROS_INFO("line_x:%f line_y:%f ",  line_x, line_y);
+        ROS_INFO("line_lat:%f line_lon:%f ",  line_lat, line_lon);
+        ROS_INFO("i:%d j:%d Score:%f ",  i , j  ,  Score[i][j]);
 
         float error_hiegh = dz-dz /sqrtf(dx*dx+dy*dy) * d_L -(Score[i][j] -start_high )/magnification;
-        //ROS_INFO("p_P.x>p_C.x  high drone %f; high lined offset %f ; target point high %f ;error_hiegh %f",
-        //               dz , dz /sqrtf(dx*dx+dy*dy) * d_L,Score[i][j] - start_high ,error_hiegh);
+        ROS_INFO("p_P.x>p_C.x  high drone %f; high lined offset %f ; target point high %f ;error_hiegh %f",
+                       dz , dz /sqrtf(dx*dx+dy*dy) * d_L,Score[i][j] - start_high ,error_hiegh);
         geometry_msgs::Point p_h;
         p_h.x = line_x- p_P.x;
         p_h.y = line_y- p_P.y;
@@ -741,11 +675,11 @@ void image_to_tf::get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::
         if (error_hiegh < 0 ){
           ROS_INFO("detect human position ; need another problem to improve accuracy %f ",  error_hiegh );
           geometry_msgs::TransformStamped transformStamped;
-          transformStamped.header.stamp = time_stamp;
-          transformStamped.header.frame_id = map_tf;
+          transformStamped.header.stamp = ros::Time::now();
+          transformStamped.header.frame_id = "drone_xy";
           transformStamped.child_frame_id = "target_highfix";
-          transformStamped.transform.translation.x = line_x;
-          transformStamped.transform.translation.y = line_y;
+          transformStamped.transform.translation.x = line_x- p_P.x;
+          transformStamped.transform.translation.y = line_y- p_P.y;
           transformStamped.transform.translation.z = dz-dz /sqrtf(dx*dx+dy*dy) * d_L;
           transformStamped.transform.rotation.x = 0;
           transformStamped.transform.rotation.y = 0;
@@ -754,8 +688,10 @@ void image_to_tf::get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::
           dynamic_high_.sendTransform(transformStamped);
           marker_pub_h.publish(line_strip_high);
 
-          tf2::Vector3 map_to_target(line_x,line_y,dz /sqrtf(dx*dx+dy*dy) * d_L);
-          file_writter(map_to_target);
+          tf2::Vector3 drone_to_target(line_x- p_P.x,line_y- p_P.y,dz-dz /sqrtf(dx*dx+dy*dy) * d_L);
+          tf2::Vector3 origin_to_target = nav_to_dronexy.inverse() * drone_to_target;
+
+          file_writter(origin_to_target);
 
           break;
         }
@@ -765,23 +701,6 @@ void image_to_tf::get_line_high(const geometry_msgs::Point& p_P, geometry_msgs::
         marker_pub_h.publish(line_strip_high);
      
       }
-      ROS_INFO("range out!!!!! " );
-      geometry_msgs::TransformStamped transformStamped;
-      transformStamped.header.stamp = time_stamp;
-      transformStamped.header.frame_id = map_tf;
-      transformStamped.child_frame_id = "target_highfix";
-      transformStamped.transform.translation.x = p_C.x;
-      transformStamped.transform.translation.y = p_C.y;
-      transformStamped.transform.translation.z = p_C.z;
-      transformStamped.transform.rotation.x = 0;
-      transformStamped.transform.rotation.y = 0;
-      transformStamped.transform.rotation.z = 0;
-      transformStamped.transform.rotation.w = 1;
-      dynamic_high_.sendTransform(transformStamped);
-      marker_pub_h.publish(line_strip_high);
-
-      tf2::Vector3 map_to_target( p_C.x, p_C.y,0);
-      file_writter(map_to_target);
     }
   }
 
@@ -832,7 +751,6 @@ void image_to_tf::tf_to_LonLat_simple(const tf2::Vector3& input_tf, float& Lon ,
     //ROS_INFO("tf1 R_Lat:%f, Lon:%f ,dis:%f", R_Lat,Lon,R_Lat*0.01747737*origin_Lon);
   }
 
-
 void image_to_tf::LonLat_to_tf_simple(const float& Lon ,const float& Lat ,const float& Att, tf2::Vector3& output_tf)
   {
     float R_Lat = earth_R * std::cos(origin_Lat);
@@ -849,10 +767,8 @@ void image_to_tf::set_line(const cv::Point& point)
     c_x=(point.x-camera_cx)/camera_fx;
     c_y=(point.y-camera_cy)/camera_fy;
 
-
-
     visualization_msgs::Marker line_strip;
-    line_strip.header.frame_id = camera_tf;
+    line_strip.header.frame_id = frame_id;
     line_strip.header.stamp = ros::Time::now();
     line_strip.ns = "points_and_lines";
     line_strip.action = visualization_msgs::Marker::ADD;
@@ -862,13 +778,13 @@ void image_to_tf::set_line(const cv::Point& point)
     line_strip.type = visualization_msgs::Marker::LINE_STRIP;
 
     // LINE_STRIP/LINE_LIST markers use only the x component of scale, for the line width
-    line_strip.scale.x = 1;
+    line_strip.scale.x = 50;
     // Line list is red
     line_strip.color.r = 1.0;
     line_strip.color.a = 1.0;
 
     // Create the vertices for the points and lines
-    for (uint32_t i = 1; i < 50; ++i)
+    for (uint32_t i = 0; i < 10; ++i)
     { 
       geometry_msgs::Point p;
       p.x = c_x * i;
